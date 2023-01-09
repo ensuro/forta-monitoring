@@ -6,7 +6,7 @@ const {
   ethers,
 } = require("forta-agent");
 
-const MIN_INTERVAL_SECONDS = 2 * 60 * 60; // 2 hours
+const { MIN_INTERVAL_SECONDS } = require("./constants");
 
 const accounts = [
   {

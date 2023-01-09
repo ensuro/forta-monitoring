@@ -5,11 +5,8 @@ const {
   createBlockEvent,
   ethers,
 } = require("forta-agent");
-const {
-  createHandleBlock,
-  createFinding,
-  MIN_INTERVAL_SECONDS,
-} = require("./agent");
+const { createHandleBlock, createFinding } = require("./agent");
+const { MIN_INTERVAL_SECONDS } = require("./constants");
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -194,5 +191,31 @@ describe("Balance monitoring agent", () => {
       ),
     ]);
     expect(await handleBlock(blockEvent)).toStrictEqual([]);
+  });
+});
+
+describe("ERC20 balance monitoring", () => {
+  it.skip("returns empty findings when balance is above thresholds", async () => {
+    const accounts = [
+      {
+        name: "Test account",
+        address: "0xab8000030e0f1f0000741672d154b5a846620001",
+        warnThresh: "10.0",
+        critThresh: "5.0",
+        balance: "15.0",
+      },
+    ];
+    const provider = mockProvider(accounts);
+    const handleBlock = createHandleBlock(() => provider, accounts);
+
+    const blockEvent = createBlockEvent({ block: block });
+
+    const findings = await handleBlock(blockEvent);
+
+    expect(findings).toStrictEqual([]);
+    expect(provider.getBalance).toHaveBeenCalledWith(
+      "0xab8000030e0f1f0000741672d154b5a846620001",
+      blockEvent.blockNumber
+    );
   });
 });
