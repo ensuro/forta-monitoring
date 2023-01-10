@@ -1,16 +1,19 @@
-const USDC_ADDRESS = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
-const USDC_DECIMALS = 6;
-const ERC20_TRANSFER_EVENT =
-  "event Transfer(address indexed from, address indexed to, uint value)";
-const ERC20_TRANSFER_FROM_FUNCTION =
-  "function transferFrom(address from, address to, uint value)";
+const ERC20_TOKENS = {
+  USDC: {
+    address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    decimals: 6,
+  },
+};
+
+const ERC20_ABI = `[ { "constant": true, "inputs": [ { "name": "_owner", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "balance", "type": "uint256" } ], "payable": false, "type": "function" } ]`;
+
+const WAD_DECIMALS = 18;
 
 const MIN_INTERVAL_SECONDS = 2 * 60 * 60; // 2 hours
 
 module.exports = {
-  ERC20_TRANSFER_EVENT,
-  ERC20_TRANSFER_FROM_FUNCTION,
+  ERC20_ABI,
+  ERC20_TOKENS,
   MIN_INTERVAL_SECONDS,
-  USDC_ADDRESS,
-  USDC_DECIMALS,
+  WAD_DECIMALS,
 };

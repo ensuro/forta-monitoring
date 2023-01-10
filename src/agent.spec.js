@@ -5,8 +5,12 @@ const {
   createBlockEvent,
   ethers,
 } = require("forta-agent");
+const fortaAgent = require("forta-agent");
+
 const { createHandleBlock, createFinding } = require("./agent");
-const { MIN_INTERVAL_SECONDS } = require("./constants");
+const { MIN_INTERVAL_SECONDS, ERC20_TOKENS } = require("./constants");
+
+const USDC_UNIT = ethers.BigNumber.from(10).pow(ERC20_TOKENS.USDC.decimals);
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -195,27 +199,89 @@ describe("Balance monitoring agent", () => {
 });
 
 describe("ERC20 balance monitoring", () => {
-  it.skip("returns empty findings when balance is above thresholds", async () => {
-    const accounts = [
-      {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "10.0",
-        critThresh: "5.0",
-        balance: "15.0",
-      },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
+  const accounts = [
+    {
+      name: "Test account",
+      address: "0xab8000030e0f1f0000741672d154b5a846620001",
+      warnThresh: "10.0",
+      critThresh: "5.0",
+      token: "USDC",
+    },
+  ];
+
+  const balanceOf = jest.fn();
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("returns empty findings when balance is above thresholds", async () => {
+    const contractGetter = () => ({
+      balanceOf: balanceOf.mockImplementation(() =>
+        ethers.BigNumber.from("15").mul(USDC_UNIT)
+      ),
+    });
+
+    const handleBlock = createHandleBlock(() => {}, accounts, contractGetter);
 
     const blockEvent = createBlockEvent({ block: block });
 
     const findings = await handleBlock(blockEvent);
 
     expect(findings).toStrictEqual([]);
-    expect(provider.getBalance).toHaveBeenCalledWith(
+    expect(balanceOf).toHaveBeenCalledWith(
       "0xab8000030e0f1f0000741672d154b5a846620001",
-      blockEvent.blockNumber
+      {
+        blockTag: blockEvent.blockNumber,
+      }
     );
+  });
+
+  it("returns high severity finding when balance is below warn threshold", async () => {
+    const contractGetter = () => ({
+      balanceOf: balanceOf.mockImplementation(() =>
+        ethers.BigNumber.from("8").mul(USDC_UNIT)
+      ),
+    });
+
+    const handleBlock = createHandleBlock(() => {}, accounts, contractGetter);
+
+    const blockEvent = createBlockEvent({ block: block });
+
+    const findings = await handleBlock(blockEvent);
+
+    expect(findings).toStrictEqual([
+      createFinding(
+        "warnBalance",
+        "Low balance",
+        FindingSeverity.High,
+        accounts[0],
+        "warnThresh"
+      ),
+    ]);
+  });
+
+  it("returns critical severity finding when balance is below crit threshold", async () => {
+    const contractGetter = () => ({
+      balanceOf: balanceOf.mockImplementation(() =>
+        ethers.BigNumber.from("4").mul(USDC_UNIT)
+      ),
+    });
+
+    const handleBlock = createHandleBlock(() => {}, accounts, contractGetter);
+
+    const blockEvent = createBlockEvent({ block: block });
+
+    const findings = await handleBlock(blockEvent);
+
+    expect(findings).toStrictEqual([
+      createFinding(
+        "critBalance",
+        "Critically low balance",
+        FindingSeverity.Critical,
+        accounts[0],
+        "critThresh"
+      ),
+    ]);
   });
 });
