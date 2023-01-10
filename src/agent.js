@@ -33,6 +33,13 @@ const accounts = [
     critThresh: "1000",
     token: "USDC",
   },
+  {
+    name: "Bizaway CFL",
+    address: "0x0917c28B736746F9A32652CD2c66e918Cc9d26C9",
+    warnThresh: "2000",
+    critThresh: "1000",
+    token: "USDC",
+  },
 ];
 
 function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
