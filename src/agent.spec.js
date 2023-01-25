@@ -11,6 +11,7 @@ const { createHandleBlock, createFinding } = require("./agent");
 const { MIN_INTERVAL_SECONDS, ERC20_TOKENS } = require("./constants");
 
 const USDC_UNIT = ethers.BigNumber.from(10).pow(ERC20_TOKENS.USDC.decimals);
+const WAD_UNIT = ethers.BigNumber.from(10).pow(18);
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -81,7 +82,8 @@ describe("Balance monitoring agent", () => {
         "Low balance",
         FindingSeverity.High,
         accounts[0],
-        "warnThresh"
+        "warnThresh",
+        ethers.BigNumber.from("15").mul(WAD_UNIT)
       ),
     ]);
   });
@@ -109,7 +111,8 @@ describe("Balance monitoring agent", () => {
         "Critically low balance",
         FindingSeverity.Critical,
         accounts[0],
-        "critThresh"
+        "critThresh",
+        ethers.BigNumber.from("9").mul(WAD_UNIT)
       ),
     ]);
   });
@@ -144,14 +147,16 @@ describe("Balance monitoring agent", () => {
         "Critically low balance",
         FindingSeverity.Critical,
         accounts[0],
-        "critThresh"
+        "critThresh",
+        ethers.BigNumber.from("9").mul(WAD_UNIT)
       ),
       createFinding(
         "warnBalance",
         "Low balance",
         FindingSeverity.High,
         accounts[1],
-        "warnThresh"
+        "warnThresh",
+        ethers.BigNumber.from("15").mul(WAD_UNIT)
       ),
     ]);
   });
@@ -191,10 +196,46 @@ describe("Balance monitoring agent", () => {
         "Critically low balance",
         FindingSeverity.Critical,
         accounts[0],
-        "critThresh"
+        "critThresh",
+        ethers.BigNumber.from("9").mul(WAD_UNIT)
       ),
     ]);
     expect(await handleBlock(blockEvent)).toStrictEqual([]);
+  });
+
+  it("matic balance monitoring is unaffected by erc20 balances", async () => {
+    const balanceOf = jest.fn();
+    const contractGetter = () => ({
+      balanceOf: balanceOf.mockImplementation(() =>
+        ethers.BigNumber.from("8").mul(USDC_UNIT)
+      ),
+    });
+
+    const accounts = [
+      {
+        name: "Test account",
+        address: "0xab8000030e0f1f0000741672d154b5a846620001",
+        warnThresh: "10.0",
+        critThresh: "5.0",
+        balance: "15.0",
+      },
+    ];
+    const provider = mockProvider(accounts);
+    const handleBlock = createHandleBlock(
+      () => provider,
+      accounts,
+      contractGetter
+    );
+
+    const blockEvent = createBlockEvent({ block: block });
+
+    const findings = await handleBlock(blockEvent);
+
+    expect(findings).toStrictEqual([]);
+    expect(provider.getBalance).toHaveBeenCalledWith(
+      "0xab8000030e0f1f0000741672d154b5a846620001",
+      blockEvent.blockNumber
+    );
   });
 });
 
@@ -256,7 +297,8 @@ describe("ERC20 balance monitoring", () => {
         "Low balance",
         FindingSeverity.High,
         accounts[0],
-        "warnThresh"
+        "warnThresh",
+        ethers.BigNumber.from("8").mul(WAD_UNIT)
       ),
     ]);
   });
@@ -280,7 +322,8 @@ describe("ERC20 balance monitoring", () => {
         "Critically low balance",
         FindingSeverity.Critical,
         accounts[0],
-        "critThresh"
+        "critThresh",
+        ethers.BigNumber.from("4").mul(WAD_UNIT)
       ),
     ]);
   });

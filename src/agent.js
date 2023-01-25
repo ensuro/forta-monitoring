@@ -89,7 +89,8 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
               "Critically low balance",
               FindingSeverity.Critical,
               account,
-              "critThresh"
+              "critThresh",
+              accountBalance
             )
           );
           account.lastFinding = timestamp;
@@ -100,13 +101,22 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
               "Low balance",
               FindingSeverity.High,
               account,
-              "warnThresh"
+              "warnThresh",
+              accountBalance
             )
           );
           account.lastFinding = timestamp;
         }
       })
     );
+    if (findings.length > 0) {
+      console.log(
+        "Got %s findings on block %s: %s",
+        findings.length,
+        blockEvent.blockNumber,
+        findings.map((finding) => finding.description)
+      );
+    }
     return findings;
   }
 
@@ -138,16 +148,17 @@ function getERC20Contract(token, provider) {
   return new ethers.Contract(ERC20_TOKENS[token].address, ERC20_ABI, provider);
 }
 
-function createFinding(id, name, severity, account, thresholdKey) {
+function createFinding(id, name, severity, account, thresholdKey, balance) {
   const descriptionPrefix = account.token
     ? `${account.token} balance`
     : "Balance";
+  const formattedBalance = ethers.utils.formatUnits(balance);
 
   return Finding.fromObject({
     alertId: id,
     name: name,
     severity: severity,
-    description: `${descriptionPrefix} for ${account.name} (${account.address}) is below ${account[thresholdKey]}.`,
+    description: `${descriptionPrefix} for ${account.name} (${account.address}) is ${formattedBalance} below ${account[thresholdKey]}.`,
     protocol: "ensuro",
     type: FindingType.Info,
   });
