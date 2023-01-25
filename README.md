@@ -1,16 +1,29 @@
-# Ensuro accounts balance monitoring
+# Ensuro multi-bot
 
-## Description
+This bot provides multiple checks and alerts for the Ensuro protocol.
+
+To add a new bot:
+
+- Create a new module that exports a handler function. The function will receive a blockEvent and must return a promise that resolves to the array of findings.
+- Import it into `agent.js` and add it to the `handlers` array.
+- Add it in `config.json` in the `enabled` array.
+- Test it and add the documentation below ;-)
+
+# Bot details
+
+## Ensuro accounts balance monitoring
+
+### Description
 
 This agent monitors balance for Ensuro's operational accounts.
 
 See `agent.js:accounts` for details on the accounts and thresholds monitored.
 
-## Supported Chains
+### Supported Chains
 
 - Polygon
 
-## Alerts
+### Alerts
 
 Describe each of the type of alerts fired by this agent
 
@@ -23,7 +36,7 @@ Describe each of the type of alerts fired by this agent
   - Severity is always set to "high"
   - Type is always set to "info"
 
-## Test Data
+### Test Data
 
 The agent behaviour can be verified with the following blocks:
 

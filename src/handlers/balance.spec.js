@@ -7,8 +7,8 @@ const {
 } = require("forta-agent");
 const fortaAgent = require("forta-agent");
 
-const { createHandleBlock, createFinding } = require("./agent");
-const { MIN_INTERVAL_SECONDS, ERC20_TOKENS } = require("./constants");
+const { createHandleBlock, createFinding } = require("./balance");
+const { MIN_INTERVAL_SECONDS, ERC20_TOKENS } = require("../constants");
 
 const USDC_UNIT = ethers.BigNumber.from(10).pow(ERC20_TOKENS.USDC.decimals);
 const WAD_UNIT = ethers.BigNumber.from(10).pow(18);
