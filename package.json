@@ -1,6 +1,6 @@
 {
   "name": "ensuro-balance-monitoring",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Forta agent for monitoring balance for Ensuro's operational accounts",
   "chainIds": [
     137
@@ -23,7 +23,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "forta-agent": "^0.1.13"
+    "forta-agent": "^0.1.16"
   },
   "devDependencies": {
     "@types/jest": "^29.2.1",

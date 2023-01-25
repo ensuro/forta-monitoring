@@ -27,6 +27,8 @@ Describe each of the type of alerts fired by this agent
 
 The agent behaviour can be verified with the following blocks:
 
-- 31813266 (0,0015 MATIC)
-- 23419096 (5,0328 MATIC)
+- 31813266 (0.0015 MATIC)
+- 23419096 (5.0328 MATIC)
 - 28923764 (37+ MATIC)
+- 37740490 (0.3 USDC)
+- 37720980 (4000 USDC)
