@@ -6,7 +6,7 @@ const {
   ethers,
 } = require("forta-agent");
 
-const { ERC20_ABI, WAD_DECIMALS } = require("../constants");
+const { getERC20Balance, getERC20Contract } = require("../erc20");
 
 const config = require("../config.json");
 
@@ -84,37 +84,6 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
   }
 
   return handleBlock;
-}
-
-/**
- *
- * @param account an {address, token} object
- * @param provider the ethersProvider
- * @param blockNumber the block number to get the balance for
- * @returns the account's token balance in WAD
- */
-async function getERC20Balance(account, contractLoader, blockNumber) {
-  const erc20Contract = contractLoader(account.token);
-  let accountBalance = await erc20Contract.balanceOf(account.address, {
-    blockTag: blockNumber,
-  });
-
-  accountBalance = accountBalance.mul(
-    ethers.BigNumber.from(10).pow(
-      ethers.BigNumber.from(
-        WAD_DECIMALS - config.erc20Tokens[account.token].decimals
-      )
-    )
-  );
-  return accountBalance;
-}
-
-function getERC20Contract(token, provider) {
-  return new ethers.Contract(
-    config.erc20Tokens[token].address,
-    ERC20_ABI,
-    provider
-  );
 }
 
 function createFinding(id, name, severity, account, thresholdKey, balance) {
