@@ -8,9 +8,11 @@ const {
 const fortaAgent = require("forta-agent");
 
 const { createHandleBlock, createFinding } = require("./balance");
-const { MIN_INTERVAL_SECONDS, ERC20_TOKENS } = require("../constants");
+const config = require("../config.json");
 
-const USDC_UNIT = ethers.BigNumber.from(10).pow(ERC20_TOKENS.USDC.decimals);
+const USDC_UNIT = ethers.BigNumber.from(10).pow(
+  config.erc20Tokens.USDC.decimals
+);
 const WAD_UNIT = ethers.BigNumber.from(10).pow(18);
 
 const block = {
@@ -187,7 +189,7 @@ describe("Balance monitoring agent", () => {
     blockEvent = createBlockEvent({
       block: {
         ...block,
-        timestamp: blockEvent.block.timestamp + MIN_INTERVAL_SECONDS,
+        timestamp: blockEvent.block.timestamp + config.minIntervalSeconds,
       },
     });
     expect(await handleBlock(blockEvent)).toStrictEqual([

@@ -6,16 +6,11 @@ const {
   ethers,
 } = require("forta-agent");
 
-const {
-  MIN_INTERVAL_SECONDS,
-  ERC20_TOKENS,
-  ERC20_ABI,
-  WAD_DECIMALS,
-} = require("../constants");
+const { ERC20_ABI, WAD_DECIMALS } = require("../constants");
 
 const config = require("../config.json");
 
-const accounts = config.balanceMonitoring;
+const accounts = config.balanceMonitoring.accounts;
 
 function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
   const provider = getEthersProvider();
@@ -33,7 +28,7 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
 
     await Promise.all(
       monitoredAccounts.map(async (account) => {
-        if (timestamp - account.lastFinding < MIN_INTERVAL_SECONDS) {
+        if (timestamp - account.lastFinding < config.minIntervalSeconds) {
           console.log(
             `Skipping account ${account.name} (${account.address}) because last finding was very recent`
           );
@@ -106,14 +101,20 @@ async function getERC20Balance(account, contractLoader, blockNumber) {
 
   accountBalance = accountBalance.mul(
     ethers.BigNumber.from(10).pow(
-      ethers.BigNumber.from(WAD_DECIMALS - ERC20_TOKENS[account.token].decimals)
+      ethers.BigNumber.from(
+        WAD_DECIMALS - config.erc20Tokens[account.token].decimals
+      )
     )
   );
   return accountBalance;
 }
 
 function getERC20Contract(token, provider) {
-  return new ethers.Contract(ERC20_TOKENS[token].address, ERC20_ABI, provider);
+  return new ethers.Contract(
+    config.erc20Tokens[token].address,
+    ERC20_ABI,
+    provider
+  );
 }
 
 function createFinding(id, name, severity, account, thresholdKey, balance) {
@@ -142,5 +143,4 @@ module.exports = {
   balanceMonitoring,
   createHandleBlock,
   createFinding,
-  MIN_INTERVAL_SECONDS,
 };
