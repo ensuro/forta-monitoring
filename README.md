@@ -45,3 +45,5 @@ The agent behaviour can be verified with the following blocks:
 - 28923764 (37+ MATIC)
 - 37740490 (0.3 USDC)
 - 37720980 (4000 USDC)
+
+You can test against this blocks with `npm run block $BLOCK_NUMBER`.

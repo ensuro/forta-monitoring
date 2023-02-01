@@ -7,7 +7,7 @@ const {
 } = require("forta-agent");
 const fortaAgent = require("forta-agent");
 
-const { createHandleBlock, createFinding } = require("./balance");
+const { createHandleBlock, createFinding } = require("./gasBalance");
 const config = require("../config.json");
 
 const USDC_UNIT = ethers.BigNumber.from(10).pow(

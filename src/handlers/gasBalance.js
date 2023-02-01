@@ -10,7 +10,7 @@ const { getERC20Balance, getERC20Contract } = require("../erc20");
 
 const config = require("../config.json");
 
-const accounts = config.balanceMonitoring.accounts;
+const accounts = config.handlers.gasBalance.accounts;
 
 function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
   const provider = getEthersProvider();
@@ -96,20 +96,20 @@ function createFinding(id, name, severity, account, thresholdKey, balance) {
     alertId: id,
     name: name,
     severity: severity,
-    description: `${descriptionPrefix} for ${account.name} (${account.address}) is ${formattedBalance} below ${account[thresholdKey]}.`,
+    description: `${descriptionPrefix} for ${account.name} (${account.address}) is ${formattedBalance}, below ${account[thresholdKey]} thresh.`,
     protocol: "ensuro",
     type: FindingType.Info,
   });
 }
 
-const balanceMonitoring = createHandleBlock(
+const gasBalance = createHandleBlock(
   getEthersProvider,
   accounts,
   getERC20Contract
 );
 
 module.exports = {
-  balanceMonitoring,
+  gasBalance,
   createHandleBlock,
   createFinding,
 };

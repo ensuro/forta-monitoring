@@ -1,10 +1,10 @@
-const { balanceMonitoring } = require("./handlers/balance");
+const { gasBalance } = require("./handlers/gasBalance");
 const { dummy } = require("./handlers/dummy");
 
 const config = require("./config.json");
 
 const handlers = {
-  balanceMonitoring,
+  gasBalance,
   dummy,
 };
 
