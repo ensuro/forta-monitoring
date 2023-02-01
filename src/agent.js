@@ -1,10 +1,12 @@
 const { gasBalance } = require("./handlers/gasBalance");
+const { tokenBalance } = require("./handlers/tokenBalance");
 const { dummy } = require("./handlers/dummy");
 
 const config = require("./config.json");
 
 const handlers = {
   gasBalance,
+  tokenBalance,
   dummy,
 };
 

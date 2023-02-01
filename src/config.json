@@ -1,5 +1,5 @@
 {
-  "enabled": ["gasBalance", "dummy"],
+  "enabled": ["gasBalance", "tokenBalance", "dummy"],
   "minIntervalSeconds": 7200,
   "erc20Tokens": {
     "USDC": {
@@ -21,7 +21,11 @@
           "address": "0x257d6896f0053648f9bb9310ef3b046fc2079994",
           "warnThresh": "2.0",
           "critThresh": "1.0"
-        },
+        }
+      ]
+    },
+    "tokenBalance": {
+      "accounts": [
         {
           "name": "Koala CFL",
           "address": "0xccd55D27aE681682f5Ed2B04EF21069D4EC24982",
