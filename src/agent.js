@@ -1,5 +1,6 @@
 const { gasBalance } = require("./handlers/gasBalance");
 const { tokenBalance } = require("./handlers/tokenBalance");
+const { paDeficit } = require("./handlers/paDeficit");
 const { dummy } = require("./handlers/dummy");
 
 const config = require("./config.json");
@@ -7,6 +8,7 @@ const config = require("./config.json");
 const handlers = {
   gasBalance,
   tokenBalance,
+  paDeficit,
   dummy,
 };
 

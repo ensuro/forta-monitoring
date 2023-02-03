@@ -27,8 +27,6 @@ See `config.handlers.gasBalance.accounts` and `config.handlers.tokenBalance.acco
 
 ### Alerts
 
-Describe each of the type of alerts fired by this agent
-
 - critBalance
   - Fired when the balance is below `critThreshold`
   - Severity is always set to "crit"
@@ -49,3 +47,26 @@ The agent behaviour can be verified with the following blocks:
 - 37720980 (4000 USDC)
 
 You can test against this blocks with `npm run block $BLOCK_NUMBER`.
+
+## Premiums account deficit
+
+### Description
+
+Monitors the deficit vs active pure premiums ratio and alerts when a certain threshold is exceeded.
+
+### Alerts
+
+- critDeficit
+  - Fired when the deficit/activePP ratio is above `critThreshold`
+  - Severity is always set to "crit"
+  - Type is always set to "info"
+- warnDeficit
+  - Fired when the deficit/activePP ratio is above `warnThreshold`
+  - Severity is always set to "high"
+  - Type is always set to "info"
+
+### Test Data
+
+There's no actual blocks where this has happened, the best way to test the bot in development is to modifty the thresholds and run against the current block.
+
+Also `npm test`.
