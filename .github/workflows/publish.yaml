@@ -21,8 +21,10 @@ jobs:
           KEYFILE_PASSWORD: "${{ secrets.FORTA_AGENT_KEYFILE_PASSWORD }}"
         run: |
           mkdir -p ~/.forta
-          printf "${{ secrets.FORTA_AGENT_KEYFILE }}" > ~/.forta/keyfile
-          jq '{"agentId": .agentId, "keyfilePassword": env.KEYFILE_PASSWORD, "keyFile": "keyfile"}' forta.config.json > ~/.forta/forta.config.json
+          export KEYFILE_NAME="UTC--2023-01-11T11:43:52.796Z--5bc765ef075b51eb86a640cd41dc055883133f49"
+          printf "${{ secrets.FORTA_AGENT_KEYFILE }}" > ~/.forta/"$KEYFILE_NAME"
+          jq '{"agentId": .agentId, "keyfilePassword": env.KEYFILE_PASSWORD, "keyfile": env.KEYFILE_NAME}' forta.config.json > ~/.forta/forta.config.json
+          cat ~/.forta/forta.config.json
 
       - name: Publish
         run: npx forta-agent publish --config ~/.forta/forta.config.json
