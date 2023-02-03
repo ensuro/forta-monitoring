@@ -8,12 +8,23 @@ on:
       - v*
   workflow_dispatch:
 
-env:
-  DUMMY: "1"
-
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npx forta-agent info
+
+      - name: Setup keyfile
+        env:
+          KEYFILE_PASSWORD: "${{ secrets.FORTA_AGENT_KEYFILE_PASSWORD }}"
+        run: |
+          mkdir secrets
+          printf "${{ secrets.FORTA_AGENT_KEYFILE }}" > secrets/keyfile
+          export KEYFILE_PATH="$PWD/secrets/keyfile"
+          jq '{"agentId": .agentId, "keyfilePassword": env.KEYFILE_PASSWORD, "keyFile": env.KEYFILE_PATH}' forta.config.json > secrets/forta.config.json
+
+      - name: Publish
+        run: npx forta-agent publish --config secrets/forta.config.json
+
+      - name: Cleanup
+        run: rm -fr secrets
