@@ -17,23 +17,13 @@ function createHandleBlock(getEthersProvider, accounts) {
 
   const monitoredAccounts = accounts.map((account) => ({
     ...account,
-    lastFinding: 0,
   }));
 
   async function handleBlock(blockEvent) {
     const findings = [];
 
-    const timestamp = blockEvent.block.timestamp;
-
     await Promise.all(
       monitoredAccounts.map(async (account) => {
-        if (timestamp - account.lastFinding < config.minIntervalSeconds) {
-          console.log(
-            `Skipping account ${account.name} (${account.address}) because last finding was very recent`
-          );
-          return;
-        }
-
         let accountBalance;
         accountBalance = await provider.getBalance(
           account.address,
@@ -54,7 +44,6 @@ function createHandleBlock(getEthersProvider, accounts) {
               accountBalance
             )
           );
-          account.lastFinding = timestamp;
         } else if (accountBalance.lt(warnThresh)) {
           findings.push(
             createFinding(
@@ -66,7 +55,6 @@ function createHandleBlock(getEthersProvider, accounts) {
               accountBalance
             )
           );
-          account.lastFinding = timestamp;
         }
       })
     );
@@ -80,14 +68,17 @@ function createHandleBlock(getEthersProvider, accounts) {
 function createFinding(id, name, severity, account, thresholdKey, balance) {
   const formattedBalance = ethers.utils.formatUnits(balance);
 
-  return Finding.fromObject({
-    alertId: id,
-    name: name,
-    severity: severity,
-    description: `Balance for ${account.name} (${account.address}) is ${formattedBalance}, below ${account[thresholdKey]} thresh.`,
-    protocol: "ensuro",
-    type: FindingType.Info,
-  });
+  return {
+    id: `${id}-${account.address}`,
+    finding: Finding.fromObject({
+      alertId: id,
+      name: name,
+      severity: severity,
+      description: `Balance for ${account.name} (${account.address}) is ${formattedBalance}, below ${account[thresholdKey]} thresh.`,
+      protocol: "ensuro",
+      type: FindingType.Info,
+    }),
+  };
 }
 
 const gasBalance = createHandleBlock(getEthersProvider, accounts);

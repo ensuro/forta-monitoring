@@ -5,7 +5,6 @@ const {
   createBlockEvent,
   ethers,
 } = require("forta-agent");
-const fortaAgent = require("forta-agent");
 
 const { createHandleBlock, createFinding } = require("./gasBalance");
 const config = require("../config.json");
@@ -161,48 +160,6 @@ describe("Balance monitoring agent", () => {
         ethers.BigNumber.from("15").mul(WAD_UNIT)
       ),
     ]);
-  });
-
-  it("does not return findings within the minimum interval", async () => {
-    const accounts = [
-      {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "90.0",
-        critThresh: "10.0",
-        balance: "9.0",
-      },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
-
-    let blockEvent = createBlockEvent({ block: block });
-
-    // First call returns the findings
-    const findings = await handleBlock(blockEvent);
-    expect(findings.length).toEqual(1);
-
-    // Second call doesn't return any findings because minInterval has not elapsed
-    expect(await handleBlock(blockEvent)).toStrictEqual([]);
-
-    // Moving time forward makes it return the findings again
-    blockEvent = createBlockEvent({
-      block: {
-        ...block,
-        timestamp: blockEvent.block.timestamp + config.minIntervalSeconds,
-      },
-    });
-    expect(await handleBlock(blockEvent)).toStrictEqual([
-      createFinding(
-        "critBalance",
-        "Critically low balance",
-        FindingSeverity.Critical,
-        accounts[0],
-        "critThresh",
-        ethers.BigNumber.from("9").mul(WAD_UNIT)
-      ),
-    ]);
-    expect(await handleBlock(blockEvent)).toStrictEqual([]);
   });
 
   it("matic balance monitoring is unaffected by erc20 balances", async () => {

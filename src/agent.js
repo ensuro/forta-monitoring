@@ -14,8 +14,12 @@ function createHandleBlock(getHandlers, getConfig) {
   const handlers = getHandlers();
   const config = getConfig();
 
+  const findingTimestamps = {};
+
   async function handleBlock(blockEvent) {
     const results = [];
+
+    const timestamp = blockEvent.block.timestamp;
 
     for (const handlerName of config.enabled) {
       const handler = handlers[handlerName];
@@ -27,15 +31,30 @@ function createHandleBlock(getHandlers, getConfig) {
     }
 
     const findings = (await Promise.all(results)).flat();
-    if (findings.length > 0) {
+
+    const filteredFindings = findings.filter((finding) => {
+      const lastFinding = findingTimestamps[finding.id] || 0;
+
+      if (timestamp - lastFinding < config.minIntervalSeconds) {
+        console.log(
+          `Skipping finding ${finding.id} because last instance was very recent`
+        );
+        return false;
+      }
+
+      findingTimestamps[finding.id] = timestamp;
+      return true;
+    });
+
+    if (filteredFindings.length > 0) {
       console.log(
         "Got %s findings on block %s: %s",
-        findings.length,
+        filteredFindings.length,
         blockEvent.blockNumber,
-        findings.map((finding) => finding.description)
+        filteredFindings.map((finding) => finding.finding.description)
       );
     }
-    return findings;
+    return filteredFindings.map((finding) => finding.finding);
   }
 
   return handleBlock;

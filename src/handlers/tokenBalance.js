@@ -24,17 +24,8 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
   async function handleBlock(blockEvent) {
     const findings = [];
 
-    const timestamp = blockEvent.block.timestamp;
-
     await Promise.all(
       monitoredAccounts.map(async (account) => {
-        if (timestamp - account.lastFinding < config.minIntervalSeconds) {
-          console.log(
-            `Skipping account ${account.name} (${account.address}) because last finding was very recent`
-          );
-          return;
-        }
-
         const accountBalance = await getERC20Balance(
           account,
           erc20ContractFactory,
@@ -55,7 +46,6 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
               accountBalance
             )
           );
-          account.lastFinding = timestamp;
         } else if (accountBalance.lt(warnThresh)) {
           findings.push(
             createFinding(
@@ -67,7 +57,6 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
               accountBalance
             )
           );
-          account.lastFinding = timestamp;
         }
       })
     );
@@ -81,14 +70,18 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
 function createFinding(id, name, severity, account, thresholdKey, balance) {
   const formattedBalance = ethers.utils.formatUnits(balance);
 
-  return Finding.fromObject({
-    alertId: id,
-    name: name,
-    severity: severity,
-    description: `${account.token} balance for ${account.name} (${account.address}) is ${formattedBalance}, below ${account[thresholdKey]} thresh.`,
-    protocol: "ensuro",
-    type: FindingType.Info,
-  });
+  return {
+    id: `${id}-${account.address}`,
+
+    finding: Finding.fromObject({
+      alertId: id,
+      name: name,
+      severity: severity,
+      description: `${account.token} balance for ${account.name} (${account.address}) is ${formattedBalance}, below ${account[thresholdKey]} thresh.`,
+      protocol: "ensuro",
+      type: FindingType.Info,
+    }),
+  };
 }
 
 const tokenBalance = createHandleBlock(

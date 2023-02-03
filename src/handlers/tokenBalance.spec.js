@@ -75,7 +75,7 @@ describe("ERC20 balance monitoring", () => {
     expect(findings).toStrictEqual([
       createFinding(
         "warnBalance",
-        "Low balance",
+        "Low token balance",
         FindingSeverity.High,
         accounts[0],
         "warnThresh",
@@ -100,7 +100,7 @@ describe("ERC20 balance monitoring", () => {
     expect(findings).toStrictEqual([
       createFinding(
         "critBalance",
-        "Critically low balance",
+        "Critically low token balance",
         FindingSeverity.Critical,
         accounts[0],
         "critThresh",
