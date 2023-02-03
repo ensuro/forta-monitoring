@@ -5,174 +5,93 @@ const {
   createBlockEvent,
   ethers,
 } = require("forta-agent");
-const fortaAgent = require("forta-agent");
 
-const { createHandleBlock, createFinding } = require("./agent");
-const { MIN_INTERVAL_SECONDS, ERC20_TOKENS } = require("./constants");
-
-const USDC_UNIT = ethers.BigNumber.from(10).pow(ERC20_TOKENS.USDC.decimals);
-const WAD_UNIT = ethers.BigNumber.from(10).pow(18);
+const { createHandleBlock, handleBlock } = require("./agent");
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
   timestamp: Date.now() / 1000,
 };
 
-function mockProvider(accounts) {
-  const accountBalances = accounts.reduce(
-    (balances, account) => ({
-      ...balances,
-      [account.address]: ethers.utils.parseEther(account.balance),
-    }),
-    {}
-  );
-
-  const provider = { getBalance: jest.fn() };
-  provider.getBalance.mockImplementation(
-    (address, blockNumber) => accountBalances[address]
-  );
-  return provider;
-}
-
-describe("Balance monitoring agent", () => {
-  it("returns empty findings when balance is above thresholds", async () => {
-    const accounts = [
+describe("Agent entrypoint", () => {
+  it("Must run configured handlers", async () => {
+    const handler1 = jest.fn((b) => [
       {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "10.0",
-        critThresh: "5.0",
-        balance: "15.0",
+        id: "finding1",
+        finding: Finding.fromObject({
+          alertId: "handler1",
+          name: "handler1 alert",
+          severity: FindingSeverity.High,
+          description: `A high severity alert`,
+          protocol: "test",
+          type: FindingType.Info,
+        }),
       },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
+    ]);
+
+    const handler2 = jest.fn((b) => []);
+
+    const handleBlock = createHandleBlock(
+      () => ({ handler1, handler2 }),
+      () => ({ enabled: ["handler1", "handler2"] })
+    );
 
     const blockEvent = createBlockEvent({ block: block });
 
     const findings = await handleBlock(blockEvent);
 
-    expect(findings).toStrictEqual([]);
-    expect(provider.getBalance).toHaveBeenCalledWith(
-      "0xab8000030e0f1f0000741672d154b5a846620001",
-      blockEvent.blockNumber
+    expect(findings).toStrictEqual([
+      Finding.fromObject({
+        alertId: "handler1",
+        name: "handler1 alert",
+        severity: FindingSeverity.High,
+        description: `A high severity alert`,
+        protocol: "test",
+        type: FindingType.Info,
+      }),
+    ]);
+
+    expect(handler1).toHaveBeenCalledWith(blockEvent);
+    expect(handler1.mock.calls.length).toEqual(1);
+
+    expect(handler2).toHaveBeenCalledWith(blockEvent);
+    expect(handler2.mock.calls.length).toEqual(1);
+  });
+
+  it("throws for unknown handlers", async () => {
+    const handler1 = jest.fn((b) => []);
+
+    const handleBlock = createHandleBlock(
+      () => ({ handler1 }),
+      () => ({ enabled: ["handler1", "handler2"] })
+    );
+
+    const blockEvent = createBlockEvent({ block: block });
+
+    await expect(async () => handleBlock(blockEvent)).rejects.toThrow(
+      new Error("Unknown handler handler2")
     );
   });
 
-  it("returns high severity finding when balance is below warn threshold", async () => {
-    const accounts = [
-      {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "20.0",
-        critThresh: "5.0",
-        balance: "15.0",
-      },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([
-      createFinding(
-        "warnBalance",
-        "Low balance",
-        FindingSeverity.High,
-        accounts[0],
-        "warnThresh",
-        ethers.BigNumber.from("15").mul(WAD_UNIT)
-      ),
-    ]);
-  });
-
-  it("returns critical severity finding when balance is below crit threshold", async () => {
-    const accounts = [
-      {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "90.0",
-        critThresh: "10.0",
-        balance: "9.0",
-      },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([
-      createFinding(
-        "critBalance",
-        "Critically low balance",
-        FindingSeverity.Critical,
-        accounts[0],
-        "critThresh",
-        ethers.BigNumber.from("9").mul(WAD_UNIT)
-      ),
-    ]);
-  });
-
-  it("returns findings for multiple accounts", async () => {
-    const accounts = [
-      {
-        name: "Test account 1",
-        address: "0x111100030e0f1f0000741672d154b5a846621111",
-        warnThresh: "90.0",
-        critThresh: "10.0",
-        balance: "9.0",
-      },
-      {
-        name: "Test account 2",
-        address: "0x222200030e0f1f0000000072d154b5a846622222",
-        warnThresh: "20.0",
-        critThresh: "5.0",
-        balance: "15.0",
-      },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([
-      createFinding(
-        "critBalance",
-        "Critically low balance",
-        FindingSeverity.Critical,
-        accounts[0],
-        "critThresh",
-        ethers.BigNumber.from("9").mul(WAD_UNIT)
-      ),
-      createFinding(
-        "warnBalance",
-        "Low balance",
-        FindingSeverity.High,
-        accounts[1],
-        "warnThresh",
-        ethers.BigNumber.from("15").mul(WAD_UNIT)
-      ),
-    ]);
-  });
-
   it("does not return findings within the minimum interval", async () => {
-    const accounts = [
+    const handler1 = jest.fn((b) => [
       {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "90.0",
-        critThresh: "10.0",
-        balance: "9.0",
+        id: "finding1",
+        finding: Finding.fromObject({
+          alertId: "handler1",
+          name: "handler1 alert",
+          severity: FindingSeverity.High,
+          description: `A high severity alert`,
+          protocol: "test",
+          type: FindingType.Info,
+        }),
       },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(() => provider, accounts);
+    ]);
+
+    const handleBlock = createHandleBlock(
+      () => ({ handler1 }),
+      () => ({ enabled: ["handler1"], minIntervalSeconds: 20 })
+    );
 
     let blockEvent = createBlockEvent({ block: block });
 
@@ -187,144 +106,19 @@ describe("Balance monitoring agent", () => {
     blockEvent = createBlockEvent({
       block: {
         ...block,
-        timestamp: blockEvent.block.timestamp + MIN_INTERVAL_SECONDS,
+        timestamp: blockEvent.block.timestamp + 60,
       },
     });
     expect(await handleBlock(blockEvent)).toStrictEqual([
-      createFinding(
-        "critBalance",
-        "Critically low balance",
-        FindingSeverity.Critical,
-        accounts[0],
-        "critThresh",
-        ethers.BigNumber.from("9").mul(WAD_UNIT)
-      ),
+      Finding.fromObject({
+        alertId: "handler1",
+        name: "handler1 alert",
+        severity: FindingSeverity.High,
+        description: `A high severity alert`,
+        protocol: "test",
+        type: FindingType.Info,
+      }),
     ]);
     expect(await handleBlock(blockEvent)).toStrictEqual([]);
-  });
-
-  it("matic balance monitoring is unaffected by erc20 balances", async () => {
-    const balanceOf = jest.fn();
-    const contractGetter = () => ({
-      balanceOf: balanceOf.mockImplementation(() =>
-        ethers.BigNumber.from("8").mul(USDC_UNIT)
-      ),
-    });
-
-    const accounts = [
-      {
-        name: "Test account",
-        address: "0xab8000030e0f1f0000741672d154b5a846620001",
-        warnThresh: "10.0",
-        critThresh: "5.0",
-        balance: "15.0",
-      },
-    ];
-    const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(
-      () => provider,
-      accounts,
-      contractGetter
-    );
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([]);
-    expect(provider.getBalance).toHaveBeenCalledWith(
-      "0xab8000030e0f1f0000741672d154b5a846620001",
-      blockEvent.blockNumber
-    );
-  });
-});
-
-describe("ERC20 balance monitoring", () => {
-  const accounts = [
-    {
-      name: "Test account",
-      address: "0xab8000030e0f1f0000741672d154b5a846620001",
-      warnThresh: "10.0",
-      critThresh: "5.0",
-      token: "USDC",
-    },
-  ];
-
-  const balanceOf = jest.fn();
-
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it("returns empty findings when balance is above thresholds", async () => {
-    const contractGetter = () => ({
-      balanceOf: balanceOf.mockImplementation(() =>
-        ethers.BigNumber.from("15").mul(USDC_UNIT)
-      ),
-    });
-
-    const handleBlock = createHandleBlock(() => {}, accounts, contractGetter);
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([]);
-    expect(balanceOf).toHaveBeenCalledWith(
-      "0xab8000030e0f1f0000741672d154b5a846620001",
-      {
-        blockTag: blockEvent.blockNumber,
-      }
-    );
-  });
-
-  it("returns high severity finding when balance is below warn threshold", async () => {
-    const contractGetter = () => ({
-      balanceOf: balanceOf.mockImplementation(() =>
-        ethers.BigNumber.from("8").mul(USDC_UNIT)
-      ),
-    });
-
-    const handleBlock = createHandleBlock(() => {}, accounts, contractGetter);
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([
-      createFinding(
-        "warnBalance",
-        "Low balance",
-        FindingSeverity.High,
-        accounts[0],
-        "warnThresh",
-        ethers.BigNumber.from("8").mul(WAD_UNIT)
-      ),
-    ]);
-  });
-
-  it("returns critical severity finding when balance is below crit threshold", async () => {
-    const contractGetter = () => ({
-      balanceOf: balanceOf.mockImplementation(() =>
-        ethers.BigNumber.from("4").mul(USDC_UNIT)
-      ),
-    });
-
-    const handleBlock = createHandleBlock(() => {}, accounts, contractGetter);
-
-    const blockEvent = createBlockEvent({ block: block });
-
-    const findings = await handleBlock(blockEvent);
-
-    expect(findings).toStrictEqual([
-      createFinding(
-        "critBalance",
-        "Critically low balance",
-        FindingSeverity.Critical,
-        accounts[0],
-        "critThresh",
-        ethers.BigNumber.from("4").mul(WAD_UNIT)
-      ),
-    ]);
   });
 });
