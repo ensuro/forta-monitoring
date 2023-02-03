@@ -2,6 +2,8 @@
 
 This bot provides multiple checks and alerts for the Ensuro protocol.
 
+https://github.com/ensuro/forta-monitoring
+
 To add a new bot:
 
 - Create a new module that exports a handler function. The function will receive a blockEvent and must return a promise that resolves to an array of `{id, finding}` objects.
