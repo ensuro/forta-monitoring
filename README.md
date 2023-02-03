@@ -4,24 +4,24 @@ This bot provides multiple checks and alerts for the Ensuro protocol.
 
 To add a new bot:
 
-- Create a new module that exports a handler function. The function will receive a blockEvent and must return a promise that resolves to the array of findings.
+- Create a new module that exports a handler function. The function will receive a blockEvent and must return a promise that resolves to an array of `{id, finding}` objects.
 - Import it into `agent.js` and add it to the `handlers` array.
 - Add it in `config.json` in the `enabled` array.
 - Test it and add the documentation below ;-)
 
+## Supported Chains
+
+- Polygon
+
 # Bot details
 
-## Ensuro accounts balance monitoring
+## Gas and erc20 balance monitoring
 
 ### Description
 
-This agent monitors balance for Ensuro's operational accounts.
+These are two handlers to monitor MATIC and USDC (or other ERC20) balances.
 
-See `agent.js:accounts` for details on the accounts and thresholds monitored.
-
-### Supported Chains
-
-- Polygon
+See `config.handlers.gasBalance.accounts` and `config.handlers.tokenBalance.accounts` for details on the accounts and thresholds monitored.
 
 ### Alerts
 
