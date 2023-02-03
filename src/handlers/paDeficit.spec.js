@@ -6,7 +6,6 @@ const config = require("../config.json");
 const USDC_UNIT = ethers.BigNumber.from(10).pow(
   config.erc20Tokens.USDC.decimals
 );
-const WAD_UNIT = ethers.BigNumber.from(10).pow(18);
 
 const block = {
   hash: `0x${"0".repeat(64)}`,

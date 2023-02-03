@@ -7,7 +7,6 @@ const {
 } = require("forta-agent");
 
 const { WAD_DECIMALS } = require("../constants");
-const { getERC20Balance, getERC20Contract } = require("../erc20");
 
 const config = require("../config.json");
 
