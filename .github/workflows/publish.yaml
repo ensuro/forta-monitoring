@@ -18,13 +18,12 @@ jobs:
         env:
           KEYFILE_PASSWORD: "${{ secrets.FORTA_AGENT_KEYFILE_PASSWORD }}"
         run: |
-          mkdir secrets
-          printf "${{ secrets.FORTA_AGENT_KEYFILE }}" > secrets/keyfile
-          export KEYFILE_PATH="$PWD/secrets/keyfile"
-          jq '{"agentId": .agentId, "keyfilePassword": env.KEYFILE_PASSWORD, "keyFile": env.KEYFILE_PATH}' forta.config.json > secrets/forta.config.json
+          mkdir -p ~/.forta
+          printf "${{ secrets.FORTA_AGENT_KEYFILE }}" > ~/.forta/keyfile
+          jq '{"agentId": .agentId, "keyfilePassword": env.KEYFILE_PASSWORD, "keyFile": "keyfile"}' forta.config.json > ~/.forta/forta.config.json
 
       - name: Publish
-        run: npx forta-agent publish --config secrets/forta.config.json
+        run: npx forta-agent publish --config ~/.forta/forta.config.json
 
       - name: Cleanup
-        run: rm -fr secrets
+        run: rm -fr ~/.forta
