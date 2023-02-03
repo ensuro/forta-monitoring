@@ -35,25 +35,18 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
         const warnThresh = ethers.utils.parseEther(account.warnThresh);
         const critThresh = ethers.utils.parseEther(account.critThresh);
 
-        if (accountBalance.lt(critThresh)) {
+        if (accountBalance.lt(warnThresh)) {
           findings.push(
             createFinding(
-              "critBalance",
-              "Critically low token balance",
-              FindingSeverity.Critical,
+              accountBalance.lt(critThresh) ? "critBalance" : "warnBalance",
+              accountBalance.lt(critThresh)
+                ? "Critically low token balance"
+                : "Low token balance",
+              accountBalance.lt(critThresh)
+                ? FindingSeverity.Critical
+                : FindingSeverity.High,
               account,
-              "critThresh",
-              accountBalance
-            )
-          );
-        } else if (accountBalance.lt(warnThresh)) {
-          findings.push(
-            createFinding(
-              "warnBalance",
-              "Low token balance",
-              FindingSeverity.High,
-              account,
-              "warnThresh",
+              accountBalance.lt(critThresh) ? "critThresh" : "warnThresh",
               accountBalance
             )
           );
@@ -72,7 +65,6 @@ function createFinding(id, name, severity, account, thresholdKey, balance) {
 
   return {
     id: `${id}-${account.address}`,
-
     finding: Finding.fromObject({
       alertId: id,
       name: name,
