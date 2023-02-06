@@ -23,6 +23,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@ensuro/core": "^2.0.1",
+    "big.js": "^6.2.1",
     "forta-agent": "^0.1.16"
   },
   "devDependencies": {

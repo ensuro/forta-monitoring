@@ -2,6 +2,7 @@ const { FindingSeverity, createBlockEvent, ethers } = require("forta-agent");
 
 const { createHandleBlock, createFinding } = require("./exposure");
 const config = require("../config.json");
+const { default: Big } = require("big.js");
 
 const USDC_UNIT = ethers.BigNumber.from(10).pow(
   config.erc20Tokens.USDC.decimals
@@ -85,7 +86,7 @@ describe("RM exposure monitoring", () => {
         FindingSeverity.High,
         premiumsAccounts[0],
         "warnThresh",
-        ethers.utils.parseUnits("0.55")
+        Big("0.55")
       ),
     ]);
   });
@@ -117,7 +118,7 @@ describe("RM exposure monitoring", () => {
         FindingSeverity.Critical,
         premiumsAccounts[0],
         "critThresh",
-        ethers.utils.parseUnits("0.81")
+        Big("0.81")
       ),
     ]);
   });

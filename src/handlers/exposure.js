@@ -5,8 +5,8 @@ const {
   FindingType,
   ethers,
 } = require("forta-agent");
-
-const { WAD_DECIMALS } = require("../constants");
+const Big = require("big.js");
+const { toBigDecimal } = require("../utils");
 
 const config = require("../config.json");
 
@@ -26,22 +26,25 @@ function createHandleBlock(getEthersProvider, riskModules, rmContractGetter) {
       riskModules.map(async (rm) => {
         const contract = rmContractFactory(rm);
 
-        const activeExposure = await contract.activeExposure({
-          blockTag: blockEvent.blockNumber,
-        });
-        const exposureLimit = await contract.exposureLimit({
-          blockTag: blockEvent.blockNumber,
-        });
-        const ratio = activeExposure
-          .mul(ethers.BigNumber.from("10").pow(WAD_DECIMALS))
-          .div(exposureLimit);
+        const activeExposure = toBigDecimal(
+          await contract.activeExposure({
+            blockTag: blockEvent.blockNumber,
+          })
+        );
+        const exposureLimit = toBigDecimal(
+          await contract.exposureLimit({
+            blockTag: blockEvent.blockNumber,
+          })
+        );
+
+        const ratio = activeExposure.div(exposureLimit);
 
         // console.log(
         //   `AE=${activeExposure}, EL=${exposureLimit}, RATIO=${ratio}`
         // );
 
-        const warnThresh = ethers.utils.parseUnits(rm.warnThresh);
-        const critThresh = ethers.utils.parseUnits(rm.critThresh);
+        const warnThresh = Big(rm.warnThresh);
+        const critThresh = Big(rm.critThresh);
 
         if (ratio.gt(warnThresh)) {
           findings.push(
@@ -76,15 +79,15 @@ function getRiskModuleContract(premiumsAccount, provider) {
 }
 
 function createFinding(id, name, severity, rm, thresholdKey, ratio) {
-  const formattedExposure = ethers.utils.formatUnits(ratio);
-
   return {
     id: `${id}-${rm.address}`,
     finding: Finding.fromObject({
       alertId: id,
       name: name,
       severity: severity,
-      description: `Exposure for ${rm.name} (${rm.address}) is ${formattedExposure}, above ${rm[thresholdKey]} thresh.`,
+      description: `Exposure for ${rm.name} (${rm.address}) is ${ratio.toFixed(
+        2
+      )}, above ${rm[thresholdKey]} thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),

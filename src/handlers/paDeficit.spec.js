@@ -1,4 +1,5 @@
 const { FindingSeverity, createBlockEvent, ethers } = require("forta-agent");
+const Big = require("big.js");
 
 const { createHandleBlock, createFinding } = require("./paDeficit");
 const config = require("../config.json");
@@ -85,7 +86,7 @@ describe("PA deficit monitoring", () => {
         FindingSeverity.High,
         premiumsAccounts[0],
         "warnThresh",
-        ethers.utils.parseUnits("0.4")
+        Big("0.4")
       ),
     ]);
   });
@@ -117,7 +118,7 @@ describe("PA deficit monitoring", () => {
         FindingSeverity.Critical,
         premiumsAccounts[0],
         "critThresh",
-        ethers.utils.parseUnits("0.55")
+        Big("0.55")
       ),
     ]);
   });
