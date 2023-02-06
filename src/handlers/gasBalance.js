@@ -6,8 +6,6 @@ const {
   ethers,
 } = require("forta-agent");
 
-const { getERC20Balance, getERC20Contract } = require("../erc20");
-
 const config = require("../config.json");
 
 const accounts = config.handlers.gasBalance.accounts;

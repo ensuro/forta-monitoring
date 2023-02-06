@@ -1,5 +1,5 @@
 {
-  "enabled": ["gasBalance", "tokenBalance", "exposure"],
+  "enabled": ["gasBalance", "tokenBalance", "exposure", "paDeficit"],
   "minIntervalSeconds": 7200,
   "erc20Tokens": {
     "USDC": {
@@ -39,6 +39,16 @@
           "warnThresh": "2000",
           "critThresh": "1000",
           "token": "USDC"
+        }
+      ]
+    },
+    "paDeficit": {
+      "premiumsAccounts": [
+        {
+          "name": "PA Koala",
+          "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
         }
       ]
     },

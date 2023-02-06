@@ -1,10 +1,4 @@
-const {
-  FindingType,
-  FindingSeverity,
-  Finding,
-  createBlockEvent,
-  ethers,
-} = require("forta-agent");
+const { FindingSeverity, createBlockEvent, ethers } = require("forta-agent");
 
 const { createHandleBlock, createFinding } = require("./gasBalance");
 const config = require("../config.json");
