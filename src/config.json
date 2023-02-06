@@ -1,5 +1,5 @@
 {
-  "enabled": ["gasBalance", "tokenBalance", "dummy"],
+  "enabled": ["gasBalance", "tokenBalance", "exposure"],
   "minIntervalSeconds": 7200,
   "erc20Tokens": {
     "USDC": {
@@ -39,6 +39,22 @@
           "warnThresh": "2000",
           "critThresh": "1000",
           "token": "USDC"
+        }
+      ]
+    },
+    "exposure": {
+      "riskModules": [
+        {
+          "name": "Koala v2",
+          "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
+          "name": "Koala Partner B",
+          "address": "0x37fE456EFF897CB5dDF040A5e95f399EaBc162ca",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
         }
       ]
     }
