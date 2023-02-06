@@ -1,5 +1,5 @@
 {
-  "enabled": ["gasBalance", "tokenBalance", "dummy"],
+  "enabled": ["tokenBalance"],
   "minIntervalSeconds": 7200,
   "erc20Tokens": {
     "USDC": {
