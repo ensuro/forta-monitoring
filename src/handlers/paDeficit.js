@@ -5,8 +5,8 @@ const {
   FindingType,
   ethers,
 } = require("forta-agent");
-
 const Big = require("big.js");
+
 const { toBigDecimal } = require("../utils");
 
 const config = require("../config.json");
@@ -33,9 +33,10 @@ function createHandleBlock(
 
         const deficit = await getDeficit(contract, blockEvent.blockNumber);
 
-        const activePurePremiums = await getActivePurePremiums(
-          contract,
-          blockEvent.blockNumber
+        const activePurePremiums = toBigDecimal(
+          await contract.activePurePremiums({
+            blockTag: blockEvent.blockNumber,
+          })
         );
 
         const ratio = deficit.div(activePurePremiums);
@@ -98,19 +99,6 @@ async function getDeficit(contract, blockNumber) {
   if (surplus.gte(0)) return Big("0");
 
   return surplus.mul(-1);
-}
-
-/**
- * Returns the PA activePurePremiums as Big decimal
- * @param {*} contract  the premiums account contract
- * @param {*} blockNumber  the block number to fetch
- */
-async function getActivePurePremiums(contract, blockNumber) {
-  return toBigDecimal(
-    contract.activePurePremiums({
-      blockTag: blockNumber,
-    })
-  );
 }
 
 function createFinding(id, name, severity, pa, thresholdKey, ratio) {

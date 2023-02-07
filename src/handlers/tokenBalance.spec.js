@@ -1,5 +1,5 @@
 const { FindingSeverity, createBlockEvent, ethers } = require("forta-agent");
-const fortaAgent = require("forta-agent");
+const Big = require("big.js");
 
 const { createHandleBlock, createFinding } = require("./tokenBalance");
 const config = require("../config.json");
@@ -7,7 +7,6 @@ const config = require("../config.json");
 const USDC_UNIT = ethers.BigNumber.from(10).pow(
   config.erc20Tokens.USDC.decimals
 );
-const WAD_UNIT = ethers.BigNumber.from(10).pow(18);
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -73,7 +72,7 @@ describe("ERC20 balance monitoring", () => {
         FindingSeverity.High,
         accounts[0],
         "warnThresh",
-        ethers.BigNumber.from("8").mul(WAD_UNIT)
+        Big("8")
       ),
     ]);
   });
@@ -98,7 +97,7 @@ describe("ERC20 balance monitoring", () => {
         FindingSeverity.Critical,
         accounts[0],
         "critThresh",
-        ethers.BigNumber.from("4").mul(WAD_UNIT)
+        Big("4")
       ),
     ]);
   });
