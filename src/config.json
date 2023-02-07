@@ -47,7 +47,7 @@
         {
           "name": "PA Koala",
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
-          "warnThresh": "0.3",
+          "warnThresh": "0.1",
           "critThresh": "0.5"
         }
       ]
@@ -57,7 +57,7 @@
         {
           "name": "Koala v2",
           "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
-          "warnThresh": "0.5",
+          "warnThresh": "0.3",
           "critThresh": "0.7"
         },
         {
