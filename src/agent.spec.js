@@ -121,4 +121,47 @@ describe("Agent entrypoint", () => {
     ]);
     expect(await handleBlock(blockEvent)).toStrictEqual([]);
   });
+
+  it("handles failures in a single handler gracefully", async () => {
+    const handler1 = async (b) => [
+      {
+        id: "finding1",
+        finding: Finding.fromObject({
+          alertId: "handler1",
+          name: "handler1 alert",
+          severity: FindingSeverity.High,
+          description: `A high severity alert`,
+          protocol: "test",
+          type: FindingType.Info,
+        }),
+      },
+    ];
+
+    const handler2 = async (b) => {
+      throw new Error("This handler2 has failed :-(");
+    };
+
+    const handler3 = async (b) => [
+      {
+        id: "finding3",
+        finding: Finding.fromObject({
+          alertId: "handler3",
+          name: "handler3 alert",
+          severity: FindingSeverity.Critical,
+          description: `A critical severity alert`,
+          protocol: "test",
+          type: FindingType.Info,
+        }),
+      },
+    ];
+
+    const handleBlock = createHandleBlock(
+      () => ({ handler1, handler2, handler3 }),
+      () => ({ enabled: ["handler1", "handler2", "handler3"] })
+    );
+
+    let blockEvent = createBlockEvent({ block: block });
+    const findings = await handleBlock(blockEvent);
+    expect(findings.length).toEqual(2);
+  });
 });
