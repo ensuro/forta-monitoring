@@ -27,11 +27,11 @@ See `config.handlers.gasBalance.accounts` and `config.handlers.tokenBalance.acco
 
 ### Alerts
 
-- critBalance
+- `balance.critBalance` and `tokenBalance.critBalance`
   - Fired when the balance is below `critThreshold`
   - Severity is always set to "crit"
   - Type is always set to "info"
-- warnBalance
+- `balance.warnBalance` and `tokenBalance.warnBalance`
   - Fired when the balance is below `warnThreshold`
   - Severity is always set to "high"
   - Type is always set to "info"
@@ -56,11 +56,11 @@ Monitors the deficit vs active pure premiums ratio and alerts when a certain thr
 
 ### Alerts
 
-- critDeficit
+- `paDeficit.critDeficit`
   - Fired when the deficit/activePP ratio is above `critThreshold`
   - Severity is always set to "crit"
   - Type is always set to "info"
-- warnDeficit
+- `paDeficit.warnDeficit`
   - Fired when the deficit/activePP ratio is above `warnThreshold`
 
 ### Test Data
@@ -79,11 +79,11 @@ Alerts when a riskmodule's activeExposure/exposurLimit ratio exceeds a certain t
 
 Describe each of the type of alerts fired by this agent
 
-- critExposure
+- `exposure.critExposure`
   - Fired when the exposure ratio is above `critThreshold`
   - Severity is always set to "crit"
   - Type is always set to "info"
-- warnExposure
+- `exposure.warnExposure`
   - Fired when the exposure ratio is above `warnThreshold`
   - Severity is always set to "high"
   - Type is always set to "info"

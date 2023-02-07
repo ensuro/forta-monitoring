@@ -103,10 +103,11 @@ async function getDeficit(contract, blockNumber) {
 }
 
 function createFinding(id, name, severity, pa, thresholdKey, ratio) {
+  const namespacedId = `paDeficit.${id}`;
   return {
-    id: `${id}-${pa.address}`,
+    id: `${namespacedId}-${pa.address}`,
     finding: Finding.fromObject({
-      alertId: id,
+      alertId: namespacedId,
       name: name,
       severity: severity,
       description: `Deficit for ${pa.name} (${pa.address}) is ${ratio.toFixed(
