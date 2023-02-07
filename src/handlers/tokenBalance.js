@@ -62,10 +62,11 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
 }
 
 function createFinding(id, name, severity, account, thresholdKey, balance) {
+  const namespacedId = `tokenBalance.${id}`;
   return {
-    id: `${id}-${account.address}`,
+    id: `${namespacedId}-${account.address}`,
     finding: Finding.fromObject({
-      alertId: id,
+      alertId: namespacedId,
       name: name,
       severity: severity,
       description: `${account.token} balance for ${account.name} (${

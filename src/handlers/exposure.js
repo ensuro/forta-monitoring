@@ -81,10 +81,11 @@ function getRiskModuleContract(premiumsAccount, provider) {
 }
 
 function createFinding(id, name, severity, rm, thresholdKey, ratio) {
+  const namespacedId = `exposure.${id}`;
   return {
-    id: `${id}-${rm.address}`,
+    id: `${namespacedId}-${rm.address}`,
     finding: Finding.fromObject({
-      alertId: id,
+      alertId: namespacedId,
       name: name,
       severity: severity,
       description: `Exposure for ${rm.name} (${rm.address}) is ${ratio.toFixed(

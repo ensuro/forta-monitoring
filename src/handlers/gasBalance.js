@@ -58,10 +58,11 @@ function createHandleBlock(getEthersProvider, accounts) {
 }
 
 function createFinding(id, name, severity, account, thresholdKey, balance) {
+  const namespacedId = `gasBalance.${id}`;
   return {
-    id: `${id}-${account.address}`,
+    id: `${namespacedId}-${account.address}`,
     finding: Finding.fromObject({
-      alertId: id,
+      alertId: namespacedId,
       name: name,
       severity: severity,
       description: `Balance for ${account.name} (${
