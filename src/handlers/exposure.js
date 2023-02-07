@@ -6,12 +6,12 @@ const {
   ethers,
 } = require("forta-agent");
 const Big = require("big.js");
+
+const RiskModuleSpec = require("@ensuro/core/build/contracts/RiskModule.sol/RiskModule.json");
+
 const { toBigDecimal } = require("../utils");
 
 const config = require("../config.json");
-
-const RISK_MODULE_ABI =
-  '[{ "inputs": [], "name": "activeExposure", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" },    { "inputs": [], "name": "exposureLimit", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }]';
 
 const riskModules = config.handlers.exposure.riskModules;
 
@@ -73,7 +73,7 @@ function createHandleBlock(getEthersProvider, riskModules, rmContractGetter) {
 function getRiskModuleContract(premiumsAccount, provider) {
   return new ethers.Contract(
     premiumsAccount.address,
-    RISK_MODULE_ABI,
+    RiskModuleSpec.abi,
     provider
   );
 }

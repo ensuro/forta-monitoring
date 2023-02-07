@@ -7,12 +7,11 @@ const {
 } = require("forta-agent");
 const Big = require("big.js");
 
+const PremiumsAccountSpec = require("@ensuro/core/build/contracts/PremiumsAccount.sol/PremiumsAccount.json");
+
 const { toBigDecimal } = require("../utils");
 
 const config = require("../config.json");
-
-const PREMIUMS_ACCOUNT_ABI =
-  '[{"inputs": [], "name": "activePurePremiums", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "surplus", "outputs": [ { "internalType": "int256", "name": "", "type": "int256" } ], "stateMutability": "view", "type": "function" }]';
 
 const premiumsAccounts = config.handlers.paDeficit.premiumsAccounts;
 
@@ -79,7 +78,7 @@ function createHandleBlock(
 function getPremiumsAccountContract(premiumsAccount, provider) {
   return new ethers.Contract(
     premiumsAccount.address,
-    PREMIUMS_ACCOUNT_ABI,
+    PremiumsAccountSpec.abi,
     provider
   );
 }
