@@ -5,7 +5,9 @@ const {
   FindingType,
   ethers,
 } = require("forta-agent");
+const Big = require("big.js");
 
+const { toBigDecimal } = require("../utils");
 const config = require("../config.json");
 
 const accounts = config.handlers.gasBalance.accounts;
@@ -23,13 +25,12 @@ function createHandleBlock(getEthersProvider, accounts) {
     await Promise.all(
       monitoredAccounts.map(async (account) => {
         let accountBalance;
-        accountBalance = await provider.getBalance(
-          account.address,
-          blockEvent.blockNumber
+        accountBalance = toBigDecimal(
+          await provider.getBalance(account.address, blockEvent.blockNumber)
         );
 
-        const warnThresh = ethers.utils.parseEther(account.warnThresh);
-        const critThresh = ethers.utils.parseEther(account.critThresh);
+        const warnThresh = Big(account.warnThresh);
+        const critThresh = Big(account.critThresh);
 
         if (accountBalance.lt(warnThresh)) {
           findings.push(
@@ -57,15 +58,15 @@ function createHandleBlock(getEthersProvider, accounts) {
 }
 
 function createFinding(id, name, severity, account, thresholdKey, balance) {
-  const formattedBalance = ethers.utils.formatUnits(balance);
-
   return {
     id: `${id}-${account.address}`,
     finding: Finding.fromObject({
       alertId: id,
       name: name,
       severity: severity,
-      description: `Balance for ${account.name} (${account.address}) is ${formattedBalance}, below ${account[thresholdKey]} thresh.`,
+      description: `Balance for ${account.name} (${
+        account.address
+      }) is ${balance.toFixed(4)}, below ${account[thresholdKey]} thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),

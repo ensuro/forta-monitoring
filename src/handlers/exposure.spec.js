@@ -1,8 +1,8 @@
 const { FindingSeverity, createBlockEvent, ethers } = require("forta-agent");
+const Big = require("big.js");
 
 const { createHandleBlock, createFinding } = require("./exposure");
 const config = require("../config.json");
-const { default: Big } = require("big.js");
 
 const USDC_UNIT = ethers.BigNumber.from(10).pow(
   config.erc20Tokens.USDC.decimals
