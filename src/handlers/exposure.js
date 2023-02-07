@@ -5,13 +5,13 @@ const {
   FindingType,
   ethers,
 } = require("forta-agent");
+const Big = require("big.js");
 
-const { WAD_DECIMALS } = require("../constants");
+const RiskModuleSpec = require("@ensuro/core/build/contracts/RiskModule.sol/RiskModule.json");
+
+const { amountToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
-
-const RISK_MODULE_ABI =
-  '[{ "inputs": [], "name": "activeExposure", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" },    { "inputs": [], "name": "exposureLimit", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }]';
 
 const riskModules = config.handlers.exposure.riskModules;
 
@@ -26,22 +26,27 @@ function createHandleBlock(getEthersProvider, riskModules, rmContractGetter) {
       riskModules.map(async (rm) => {
         const contract = rmContractFactory(rm);
 
-        const activeExposure = await contract.activeExposure({
-          blockTag: blockEvent.blockNumber,
-        });
-        const exposureLimit = await contract.exposureLimit({
-          blockTag: blockEvent.blockNumber,
-        });
-        const ratio = activeExposure
-          .mul(ethers.BigNumber.from("10").pow(WAD_DECIMALS))
-          .div(exposureLimit);
+        const activeExposure = amountToBigDecimal(
+          await contract.activeExposure({
+            blockTag: blockEvent.blockNumber,
+          }),
+          config.erc20Tokens.USDC
+        );
+        const exposureLimit = amountToBigDecimal(
+          await contract.exposureLimit({
+            blockTag: blockEvent.blockNumber,
+          }),
+          config.erc20Tokens.USDC
+        );
+
+        const ratio = activeExposure.div(exposureLimit);
 
         // console.log(
         //   `AE=${activeExposure}, EL=${exposureLimit}, RATIO=${ratio}`
         // );
 
-        const warnThresh = ethers.utils.parseUnits(rm.warnThresh);
-        const critThresh = ethers.utils.parseUnits(rm.critThresh);
+        const warnThresh = Big(rm.warnThresh);
+        const critThresh = Big(rm.critThresh);
 
         if (ratio.gt(warnThresh)) {
           findings.push(
@@ -70,21 +75,21 @@ function createHandleBlock(getEthersProvider, riskModules, rmContractGetter) {
 function getRiskModuleContract(premiumsAccount, provider) {
   return new ethers.Contract(
     premiumsAccount.address,
-    RISK_MODULE_ABI,
+    RiskModuleSpec.abi,
     provider
   );
 }
 
 function createFinding(id, name, severity, rm, thresholdKey, ratio) {
-  const formattedExposure = ethers.utils.formatUnits(ratio);
-
   return {
     id: `${id}-${rm.address}`,
     finding: Finding.fromObject({
       alertId: id,
       name: name,
       severity: severity,
-      description: `Exposure for ${rm.name} (${rm.address}) is ${formattedExposure}, above ${rm[thresholdKey]} thresh.`,
+      description: `Exposure for ${rm.name} (${rm.address}) is ${ratio.toFixed(
+        2
+      )}, above ${rm[thresholdKey]} thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),

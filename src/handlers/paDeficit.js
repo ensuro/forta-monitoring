@@ -5,17 +5,13 @@ const {
   FindingType,
   ethers,
 } = require("forta-agent");
+const Big = require("big.js");
 
-const { WAD_DECIMALS } = require("../constants");
+const PremiumsAccountSpec = require("@ensuro/core/build/contracts/PremiumsAccount.sol/PremiumsAccount.json");
+
+const { amountToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
-
-const PREMIUMS_ACCOUNT_ABI =
-  '[{"inputs": [], "name": "activePurePremiums", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "surplus", "outputs": [ { "internalType": "int256", "name": "", "type": "int256" } ], "stateMutability": "view", "type": "function" }]';
-
-const AMOUNT_TO_WAD = ethers.BigNumber.from("10").pow(
-  ethers.BigNumber.from(WAD_DECIMALS - config.erc20Tokens.USDC.decimals)
-);
 
 const premiumsAccounts = config.handlers.paDeficit.premiumsAccounts;
 
@@ -36,19 +32,17 @@ function createHandleBlock(
 
         const deficit = await getDeficit(contract, blockEvent.blockNumber);
 
-        const activePurePremiums = await getActivePurePremiums(
-          contract,
-          blockEvent.blockNumber
+        const activePurePremiums = amountToBigDecimal(
+          await contract.activePurePremiums({
+            blockTag: blockEvent.blockNumber,
+          }),
+          config.erc20Tokens.USDC
         );
 
-        const ratio = deficit
-          .div(activePurePremiums)
-          .mul(
-            ethers.BigNumber.from("10").pow(config.erc20Tokens.USDC.decimals)
-          );
+        const ratio = deficit.div(activePurePremiums);
 
-        const warnThresh = ethers.utils.parseUnits(pa.warnThresh);
-        const critThresh = ethers.utils.parseUnits(pa.critThresh);
+        const warnThresh = Big(pa.warnThresh);
+        const critThresh = Big(pa.critThresh);
 
         if (ratio.gt(warnThresh)) {
           findings.push(
@@ -85,47 +79,39 @@ function createHandleBlock(
 function getPremiumsAccountContract(premiumsAccount, provider) {
   return new ethers.Contract(
     premiumsAccount.address,
-    PREMIUMS_ACCOUNT_ABI,
+    PremiumsAccountSpec.abi,
     provider
   );
 }
 
 /**
- * Returns the PA deficit as Wad
+ * Returns the PA deficit as a Big decimal
  * @param {*} contract  the premiums account contract
  * @param {*} blockNumber  the block number to fetch
  */
 async function getDeficit(contract, blockNumber) {
-  const surplus = await contract.surplus({
-    blockTag: blockNumber,
-  });
+  const surplus = amountToBigDecimal(
+    await contract.surplus({
+      blockTag: blockNumber,
+    }),
+    config.erc20Tokens.USDC
+  );
 
-  if (surplus.gte(0)) return ethers.BigNumber.from("0");
+  if (surplus.gte(0)) return Big("0");
 
-  return surplus.mul(AMOUNT_TO_WAD).mul(-1);
-}
-
-/**
- * Returns the PA activePurePremiums as USDC amount
- * @param {*} contract  the premiums account contract
- * @param {*} blockNumber  the block number to fetch
- */
-async function getActivePurePremiums(contract, blockNumber) {
-  return contract.activePurePremiums({
-    blockTag: blockNumber,
-  });
+  return surplus.mul(-1);
 }
 
 function createFinding(id, name, severity, pa, thresholdKey, ratio) {
-  const formattedDeficit = ethers.utils.formatUnits(ratio);
-
   return {
     id: `${id}-${pa.address}`,
     finding: Finding.fromObject({
       alertId: id,
       name: name,
       severity: severity,
-      description: `Deficit for ${pa.name} (${pa.address}) is ${formattedDeficit}, above ${pa[thresholdKey]} thresh.`,
+      description: `Deficit for ${pa.name} (${pa.address}) is ${ratio.toFixed(
+        2
+      )}, above ${pa[thresholdKey]} thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),
