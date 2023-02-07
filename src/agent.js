@@ -34,31 +34,37 @@ function createHandleBlock(getHandlers, getConfig) {
       results.push(handler(blockEvent));
     }
 
-    const findings = (await Promise.all(results)).flat();
+    const findings = [];
 
-    const filteredFindings = findings.filter((finding) => {
-      const lastFinding = findingTimestamps[finding.id] || 0;
+    for (const result of results) {
+      try {
+        const handlerFindings = await result;
+        for (const finding of handlerFindings) {
+          const lastFinding = findingTimestamps[finding.id] || 0;
 
-      if (timestamp - lastFinding < config.minIntervalSeconds) {
-        console.log(
-          `Skipping finding ${finding.id} because last instance was very recent`
-        );
-        return false;
+          if (timestamp - lastFinding < config.minIntervalSeconds) {
+            console.log(
+              `Skipping finding ${finding.id} because last instance was very recent`
+            );
+          } else {
+            findings.push(finding.finding);
+            findingTimestamps[finding.id] = timestamp;
+          }
+        }
+      } catch (e) {
+        console.error(e);
       }
+    }
 
-      findingTimestamps[finding.id] = timestamp;
-      return true;
-    });
-
-    if (filteredFindings.length > 0) {
+    if (findings.length > 0) {
       console.log(
         "Got %s findings on block %s: %s",
-        filteredFindings.length,
+        findings.length,
         blockEvent.blockNumber,
-        filteredFindings.map((finding) => finding.finding.description)
+        findings.map((finding) => finding.description)
       );
     }
-    return filteredFindings.map((finding) => finding.finding);
+    return findings;
   }
 
   return handleBlock;
