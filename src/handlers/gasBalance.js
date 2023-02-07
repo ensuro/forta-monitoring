@@ -7,7 +7,7 @@ const {
 } = require("forta-agent");
 const Big = require("big.js");
 
-const { toBigDecimal } = require("../utils");
+const { wadToBigDecimal } = require("../utils");
 const config = require("../config.json");
 
 const accounts = config.handlers.gasBalance.accounts;
@@ -25,7 +25,7 @@ function createHandleBlock(getEthersProvider, accounts) {
     await Promise.all(
       monitoredAccounts.map(async (account) => {
         let accountBalance;
-        accountBalance = toBigDecimal(
+        accountBalance = wadToBigDecimal(
           await provider.getBalance(account.address, blockEvent.blockNumber)
         );
 

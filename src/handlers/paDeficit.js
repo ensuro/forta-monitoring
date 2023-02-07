@@ -9,7 +9,7 @@ const Big = require("big.js");
 
 const PremiumsAccountSpec = require("@ensuro/core/build/contracts/PremiumsAccount.sol/PremiumsAccount.json");
 
-const { toBigDecimal } = require("../utils");
+const { amountToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
 
@@ -32,10 +32,11 @@ function createHandleBlock(
 
         const deficit = await getDeficit(contract, blockEvent.blockNumber);
 
-        const activePurePremiums = toBigDecimal(
+        const activePurePremiums = amountToBigDecimal(
           await contract.activePurePremiums({
             blockTag: blockEvent.blockNumber,
-          })
+          }),
+          config.erc20Tokens.USDC
         );
 
         const ratio = deficit.div(activePurePremiums);
@@ -89,10 +90,11 @@ function getPremiumsAccountContract(premiumsAccount, provider) {
  * @param {*} blockNumber  the block number to fetch
  */
 async function getDeficit(contract, blockNumber) {
-  const surplus = toBigDecimal(
+  const surplus = amountToBigDecimal(
     await contract.surplus({
       blockTag: blockNumber,
-    })
+    }),
+    config.erc20Tokens.USDC
   );
 
   if (surplus.gte(0)) return Big("0");

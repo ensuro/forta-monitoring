@@ -9,7 +9,7 @@ const Big = require("big.js");
 
 const RiskModuleSpec = require("@ensuro/core/build/contracts/RiskModule.sol/RiskModule.json");
 
-const { toBigDecimal } = require("../utils");
+const { amountToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
 
@@ -26,15 +26,17 @@ function createHandleBlock(getEthersProvider, riskModules, rmContractGetter) {
       riskModules.map(async (rm) => {
         const contract = rmContractFactory(rm);
 
-        const activeExposure = toBigDecimal(
+        const activeExposure = amountToBigDecimal(
           await contract.activeExposure({
             blockTag: blockEvent.blockNumber,
-          })
+          }),
+          config.erc20Tokens.USDC
         );
-        const exposureLimit = toBigDecimal(
+        const exposureLimit = amountToBigDecimal(
           await contract.exposureLimit({
             blockTag: blockEvent.blockNumber,
-          })
+          }),
+          config.erc20Tokens.USDC
         );
 
         const ratio = activeExposure.div(exposureLimit);

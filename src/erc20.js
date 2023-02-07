@@ -1,7 +1,6 @@
 const { ethers } = require("forta-agent");
 
-const { toBigDecimal } = require("./utils");
-const { WAD_DECIMALS } = require("./constants");
+const { amountToBigDecimal } = require("./utils");
 const config = require("./config.json");
 
 const ERC20_ABI = `[ { "constant": true, "inputs": [ { "name": "_owner", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "balance", "type": "uint256" } ], "payable": false, "type": "function" } ]`;
@@ -15,11 +14,11 @@ const ERC20_ABI = `[ { "constant": true, "inputs": [ { "name": "_owner", "type":
  */
 async function getERC20Balance(account, contractLoader, blockNumber) {
   const erc20Contract = contractLoader(account.token);
-  return toBigDecimal(
+  return amountToBigDecimal(
     await erc20Contract.balanceOf(account.address, {
       blockTag: blockNumber,
     }),
-    config.erc20Tokens[account.token].decimals
+    config.erc20Tokens[account.token]
   );
 }
 
