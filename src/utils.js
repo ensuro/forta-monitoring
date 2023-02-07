@@ -3,7 +3,7 @@ const Big = require("big.js");
 
 const { WAD_DECIMALS } = require("./constants");
 
-function toBigDecimal(bigNumberValue, decimals = WAD_DECIMALS) {
+function toBigDecimal(bigNumberValue, decimals) {
   return Big(ethers.utils.formatUnits(bigNumberValue, decimals));
 }
 
