@@ -27,11 +27,11 @@ See `config.handlers.gasBalance.accounts` and `config.handlers.tokenBalance.acco
 
 ### Alerts
 
-- `balance.critBalance` and `tokenBalance.critBalance`
+- `gasBalance.critBalance` and `tokenBalance.critBalance`
   - Fired when the balance is below `critThreshold`
   - Severity is always set to "crit"
   - Type is always set to "info"
-- `balance.warnBalance` and `tokenBalance.warnBalance`
+- `gasBalance.warnBalance` and `tokenBalance.warnBalance`
   - Fired when the balance is below `warnThreshold`
   - Severity is always set to "high"
   - Type is always set to "info"
