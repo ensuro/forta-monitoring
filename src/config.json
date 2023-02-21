@@ -12,7 +12,7 @@
       "accounts": [
         {
           "name": "Anonymous Relayer",
-          "address": "0xab8fd8630e0f1f2537741672d154b5a846621ccd",
+          "address": "0x8a96adb89717a101bb24be65331a087087732526",
           "warnThresh": "10.0",
           "critThresh": "5.0"
         },
