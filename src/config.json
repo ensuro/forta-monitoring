@@ -21,6 +21,12 @@
           "address": "0x257d6896f0053648f9bb9310ef3b046fc2079994",
           "warnThresh": "2.0",
           "critThresh": "1.0"
+        },
+        {
+          "name": "Restricted Executor",
+          "address": "0x11ca23ef7d05ff86eecd8fe8324f35693bd27cc9",
+          "warnThresh": "2.0",
+          "critThresh": "1.0"
         }
       ]
     },
