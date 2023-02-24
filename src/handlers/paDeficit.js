@@ -115,6 +115,7 @@ function createFinding(id, name, severity, pa, thresholdKey, ratio) {
       )}, above ${pa[thresholdKey]} thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
+      addresses: [pa.address],
     }),
   };
 }
