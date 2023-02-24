@@ -53,8 +53,8 @@
         {
           "name": "PA Koala",
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
-          "warnThresh": "0.05",
-          "critThresh": "0.1"
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
         }
       ]
     },
