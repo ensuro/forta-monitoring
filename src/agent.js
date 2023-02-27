@@ -25,13 +25,27 @@ function createHandleBlock(getHandlers, getConfig) {
 
     const timestamp = blockEvent.block.timestamp;
 
-    for (const handlerName of config.enabled) {
-      const handler = handlers[handlerName];
+    for (const handlerConfig of config.enabled) {
+      const handler =
+        typeof handlerConfig === "string"
+          ? handlers[handlerConfig]
+          : handlers[handlerConfig.name];
+      const handlerName =
+        typeof handlerConfig === "string" ? handlerConfig : handlerConfig.name;
+      const runEvery = handlerConfig.runEvery || 10;
+
       if (handler === undefined) {
         throw new Error(`Unknown handler ${handlerName}`);
       }
 
-      results.push(handler(blockEvent));
+      if (blockEvent.blockNumber % runEvery === 0)
+        results.push(
+          retry(
+            async () => handler(blockEvent),
+            config.maxRetries || 3,
+            config.retryDelayMs || 500
+          )
+        );
     }
 
     const findings = [];
@@ -69,6 +83,20 @@ function createHandleBlock(getHandlers, getConfig) {
 
   return handleBlock;
 }
+
+async function retry(callable, retries, retryDelayMs) {
+  while (retries > 0) {
+    retries--;
+    try {
+      return await callable();
+    } catch (e) {
+      if (retries == 0) throw e;
+      await sleep(retryDelayMs);
+    }
+  }
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const handleBlock = createHandleBlock(
   () => handlers,
