@@ -1,5 +1,10 @@
 {
-  "enabled": ["gasBalance", "tokenBalance", "exposure", "paDeficit"],
+  "enabled": [
+    { "name": "gasBalance", "runEvery": 250 },
+    { "name": "tokenBalance", "runEvery": 200 },
+    { "name": "exposure", "runEvery": 150 },
+    { "name": "paDeficit", "runEvery": 30 }
+  ],
   "minIntervalSeconds": 7200,
   "erc20Tokens": {
     "USDC": {
