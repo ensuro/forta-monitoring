@@ -40,11 +40,11 @@ See `config.handlers.gasBalance.accounts` and `config.handlers.tokenBalance.acco
 
 The agent behaviour can be verified with the following blocks:
 
-- 31813266 (0.0015 MATIC)
-- 23419096 (5.0328 MATIC)
-- 28923764 (37+ MATIC)
-- 37740490 (0.3 USDC)
-- 37720980 (4000 USDC)
+- 31813250 (0 MATIC)
+- 23419250 (5.0328 MATIC)
+- 37740750 (37+ MATIC)
+- 37740600 (0.3 USDC)
+- 37721100 (4000 USDC)
 
 You can test against this blocks with `npm run block $BLOCK_NUMBER`.
 
@@ -93,7 +93,7 @@ Describe each of the type of alerts fired by this agent
 The agent behaviour can be verified with the following blocks:
 
 - 37901700 (99% exposure on Koala V2 (0xa65c9dE776d1f30c095EFF9C775E001a1d366df8))
-- 36901700 (53% exposure on Koala V2 (0xa65c9dE776d1f30c095EFF9C775E001a1d366df8))
+- 36901650 (53% exposure on Koala V2 (0xa65c9dE776d1f30c095EFF9C775E001a1d366df8))
 - 38878342 (no alerts, 32% exposure on Koala V2 and 4% exposure on Koala Partner B)
 
 You can test against this blocks with `npm run block $BLOCK_NUMBER`.
