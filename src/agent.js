@@ -3,8 +3,17 @@ const { tokenBalance } = require("./handlers/tokenBalance");
 const { paDeficit } = require("./handlers/paDeficit");
 const { exposure } = require("./handlers/exposure");
 const { dummy } = require("./handlers/dummy");
+const Rollbar = require("rollbar");
+const RollbarLocals = require("rollbar/src/server/locals");
 
 const config = require("./config.json");
+
+const rollbar = new Rollbar({
+  accessToken: config.rollbarAccessToken,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  locals: RollbarLocals,
+});
 
 const handlers = {
   gasBalance,
@@ -66,6 +75,7 @@ function createHandleBlock(getHandlers, getConfig) {
           }
         }
       } catch (e) {
+        rollbar.error(e);
         console.error(e);
       }
     }

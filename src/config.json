@@ -12,6 +12,7 @@
       "decimals": 6
     }
   },
+  "rollbarAccessToken": "c8d3fc545270414e8f3c263f0dd1376f",
   "handlers": {
     "gasBalance": {
       "accounts": [
