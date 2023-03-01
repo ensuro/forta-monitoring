@@ -8,13 +8,6 @@ const RollbarLocals = require("rollbar/src/server/locals");
 
 const config = require("./config.json");
 
-const rollbar = new Rollbar({
-  accessToken: config.rollbarAccessToken,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  locals: RollbarLocals,
-});
-
 const handlers = {
   gasBalance,
   tokenBalance,
@@ -26,6 +19,14 @@ const handlers = {
 function createHandleBlock(getHandlers, getConfig) {
   const handlers = getHandlers();
   const config = getConfig();
+
+  const rollbar = new Rollbar({
+    accessToken: config.rollbarAccessToken || "notoken",
+    enabled: config.rollbarEnabled || false,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    locals: RollbarLocals,
+  });
 
   const findingTimestamps = {};
 
