@@ -70,8 +70,8 @@
         {
           "name": "Koala v2",
           "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
-          "warnThresh": "0.5",
-          "critThresh": "0.7"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         },
         {
           "name": "Koala Partner B",
