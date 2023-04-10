@@ -5,7 +5,7 @@
     { "name": "exposure", "runEvery": 150 },
     { "name": "paDeficit", "runEvery": 30 }
   ],
-  "minIntervalSeconds": 7200,
+  "minIntervalSeconds": 0,
   "erc20Tokens": {
     "USDC": {
       "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
