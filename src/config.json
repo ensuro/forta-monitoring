@@ -49,8 +49,8 @@
         {
           "name": "Bizaway CFL",
           "address": "0x0917c28B736746F9A32652CD2c66e918Cc9d26C9",
-          "warnThresh": "2000",
-          "critThresh": "1000",
+          "warnThresh": "500",
+          "critThresh": "100",
           "token": "USDC"
         }
       ]
