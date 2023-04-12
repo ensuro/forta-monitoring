@@ -1,7 +1,7 @@
 {
   "enabled": [
     { "name": "gasBalance", "runEvery": 250 },
-    { "name": "tokenBalance", "runEvery": 200 },
+    { "name": "tokenBalance", "runEvery": 14000 },
     { "name": "exposure", "runEvery": 150 },
     { "name": "paDeficit", "runEvery": 30 }
   ],
