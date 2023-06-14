@@ -13,7 +13,7 @@ const { amountToBigDecimal, wadToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
 
-const etokens = config.handlers.etkUtilizationRate?.etokens;
+const etokens = config.handlers.etkUtilizationRate.etokens;
 
 function createHandleBlock(getEthersProvider, etokens, etkContractGetter) {
   const provider = getEthersProvider();
