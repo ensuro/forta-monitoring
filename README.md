@@ -97,3 +97,38 @@ The agent behaviour can be verified with the following blocks:
 - 38878342 (no alerts, 32% exposure on Koala V2 and 4% exposure on Koala Partner B)
 
 You can test against this blocks with `npm run block $BLOCK_NUMBER`.
+
+## EToken utilization rate monitoring
+
+### Description
+
+Alerts when an EToken's utilization rate is above a certain threshold over the max UR.
+
+For example:
+
+- Total supply: $1000
+- Current scr: $175
+- Max utilization rate: 70% -> $700
+
+Then the current utilization rate is at 25% of the max utilization rate.
+
+### Alerts
+
+Describe each of the type of alerts fired by this agent
+
+- `etkUtilizationRate.critUtilizationRate`
+  - Fired when the current UR ratio is above `critThreshold` of max UR
+  - Severity is always set to "crit"
+  - Type is always set to "info"
+- `etkUtilizationRate.warnUtilizationRate`
+  - Fired when the current UR ratio is above `warnThreshold` of max UR
+  - Severity is always set to "high"
+  - Type is always set to "info"
+
+### Test Data
+
+The agent behaviour can be verified with the following blocks:
+
+- 43884039 (99% UR on Koala Jr (BMA reg.) (0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6))
+
+You can test against this blocks with `npm run block $BLOCK_NUMBER`.

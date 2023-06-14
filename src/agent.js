@@ -2,6 +2,7 @@ const { gasBalance } = require("./handlers/gasBalance");
 const { tokenBalance } = require("./handlers/tokenBalance");
 const { paDeficit } = require("./handlers/paDeficit");
 const { exposure } = require("./handlers/exposure");
+const { etkUtilizationRate } = require("./handlers/etkUtilizationRate");
 const { dummy } = require("./handlers/dummy");
 const Rollbar = require("rollbar");
 const RollbarLocals = require("rollbar/src/server/locals");
@@ -13,6 +14,7 @@ const handlers = {
   tokenBalance,
   paDeficit,
   exposure,
+  etkUtilizationRate,
   dummy,
 };
 

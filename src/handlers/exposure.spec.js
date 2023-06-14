@@ -14,7 +14,7 @@ const block = {
 };
 
 describe("RM exposure monitoring", () => {
-  const premiumsAccounts = [
+  const riskModules = [
     {
       name: "Test RM",
       address: "0xab8000030e0f1f0000741672d154b5a846620001",
@@ -42,7 +42,7 @@ describe("RM exposure monitoring", () => {
 
     const handleBlock = createHandleBlock(
       () => {},
-      premiumsAccounts,
+      riskModules,
       contractGetter
     );
 
@@ -71,7 +71,7 @@ describe("RM exposure monitoring", () => {
 
     const handleBlock = createHandleBlock(
       () => {},
-      premiumsAccounts,
+      riskModules,
       contractGetter
     );
 
@@ -84,7 +84,7 @@ describe("RM exposure monitoring", () => {
         "warnExposure",
         "High Exposure",
         FindingSeverity.High,
-        premiumsAccounts[0],
+        riskModules[0],
         "warnThresh",
         Big("0.55")
       ),
@@ -103,7 +103,7 @@ describe("RM exposure monitoring", () => {
 
     const handleBlock = createHandleBlock(
       () => {},
-      premiumsAccounts,
+      riskModules,
       contractGetter
     );
 
@@ -116,7 +116,7 @@ describe("RM exposure monitoring", () => {
         "critExposure",
         "Critically high Exposure",
         FindingSeverity.Critical,
-        premiumsAccounts[0],
+        riskModules[0],
         "critThresh",
         Big("0.81")
       ),
