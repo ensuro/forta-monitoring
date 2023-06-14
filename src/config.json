@@ -3,7 +3,8 @@
     { "name": "gasBalance", "runEvery": 250 },
     { "name": "tokenBalance", "runEvery": 14000 },
     { "name": "exposure", "runEvery": 150 },
-    { "name": "paDeficit", "runEvery": 30 }
+    { "name": "paDeficit", "runEvery": 30 },
+    { "name": "etkUtilizationRate", "runEvery": 270 }
   ],
   "minIntervalSeconds": 0,
   "erc20Tokens": {
@@ -78,6 +79,40 @@
           "address": "0x37fE456EFF897CB5dDF040A5e95f399EaBc162ca",
           "warnThresh": "0.5",
           "critThresh": "0.7"
+        }
+      ]
+    },
+    "etkUtilizationRate": {
+      "etokens": [
+        {
+          "name": "Innov Zone Junior Pool",
+          "address": "0x1C48Accaf6f8106883AA1973A45F02525652DEfC",
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
+        },
+        {
+          "name": "Koala Jr (BMA reg.)",
+          "address": "0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6",
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
+        },
+        {
+          "name": "Koala Junior Tranche",
+          "address": "0x8d2Ee82c4172B2138B06b8037d769cBfAf9C0274",
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
+        },
+        {
+          "name": "Senior Tranche",
+          "address": "0x55bAe6690d46EA94D7F05DF7c80A85E322421fB6",
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
+        },
+        {
+          "name": "Senior Tranche (BMA reg.)",
+          "address": "0xF383eF2D31E1d4a19B3e04ca2937DB6A8DA9f229",
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
         }
       ]
     }
