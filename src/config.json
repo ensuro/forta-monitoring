@@ -63,12 +63,6 @@
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
           "warnThresh": "0.3",
           "critThresh": "0.5"
-        },
-        {
-          "name": "PA Koala BMA",
-          "address": "0xc1A74eaC52a195E54E0cd672A9dAB023292C6100",
-          "warnThresh": "0.95",
-          "critThresh": "0.99"
         }
       ]
     },
@@ -89,8 +83,8 @@
         {
           "name": "Koala BizAway BMA",
           "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
-          "warnThresh": "0.5",
-          "critThresh": "0.7"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         }
       ]
     },
