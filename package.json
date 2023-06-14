@@ -1,6 +1,6 @@
 {
   "name": "ensuro-monitoring",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Forta agent for monitoring the Ensuro protocol",
   "chainIds": [
     137
