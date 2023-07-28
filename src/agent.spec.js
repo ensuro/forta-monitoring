@@ -1,12 +1,6 @@
-const {
-  FindingType,
-  FindingSeverity,
-  Finding,
-  createBlockEvent,
-  ethers,
-} = require("forta-agent");
+const { FindingType, FindingSeverity, Finding, createBlockEvent } = require("forta-agent");
 
-const { createHandleBlock, handleBlock } = require("./agent");
+const { createHandleBlock } = require("./agent");
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -16,7 +10,7 @@ const block = {
 
 describe("Agent entrypoint", () => {
   it("Must run configured handlers", async () => {
-    const handler1 = jest.fn((b) => [
+    const handler1 = jest.fn(() => [
       {
         id: "finding1",
         finding: Finding.fromObject({
@@ -30,7 +24,7 @@ describe("Agent entrypoint", () => {
       },
     ]);
 
-    const handler2 = jest.fn((b) => []);
+    const handler2 = jest.fn(() => []);
 
     const handleBlock = createHandleBlock(
       () => ({ handler1, handler2 }),
@@ -60,7 +54,7 @@ describe("Agent entrypoint", () => {
   });
 
   it("throws for unknown handlers", async () => {
-    const handler1 = jest.fn((b) => []);
+    const handler1 = jest.fn(() => []);
 
     const handleBlock = createHandleBlock(
       () => ({ handler1 }),
@@ -69,13 +63,11 @@ describe("Agent entrypoint", () => {
 
     const blockEvent = createBlockEvent({ block: block });
 
-    await expect(async () => handleBlock(blockEvent)).rejects.toThrow(
-      new Error("Unknown handler handler2")
-    );
+    await expect(async () => handleBlock(blockEvent)).rejects.toThrow(new Error("Unknown handler handler2"));
   });
 
   it("does not return findings within the minimum interval", async () => {
-    const handler1 = jest.fn((b) => [
+    const handler1 = jest.fn(() => [
       {
         id: "finding1",
         finding: Finding.fromObject({
@@ -124,7 +116,7 @@ describe("Agent entrypoint", () => {
   });
 
   it("handles failures in a single handler gracefully", async () => {
-    const handler1 = async (b) => [
+    const handler1 = async () => [
       {
         id: "finding1",
         finding: Finding.fromObject({
@@ -138,11 +130,11 @@ describe("Agent entrypoint", () => {
       },
     ];
 
-    const handler2 = async (b) => {
+    const handler2 = async () => {
       throw new Error("This handler2 has failed :-(");
     };
 
-    const handler3 = async (b) => [
+    const handler3 = async () => [
       {
         id: "finding3",
         finding: Finding.fromObject({
@@ -167,8 +159,8 @@ describe("Agent entrypoint", () => {
   });
 
   it("accepts an object with handler name for enabled", async () => {
-    const handler1 = jest.fn((b) => []);
-    const handler2 = jest.fn((b) => []);
+    const handler1 = jest.fn(() => []);
+    const handler2 = jest.fn(() => []);
     const handleBlock = createHandleBlock(
       () => ({ handler1, handler2 }),
       () => ({ enabled: [{ name: "handler1" }, "handler2"] })
@@ -181,7 +173,7 @@ describe("Agent entrypoint", () => {
   });
 
   it("runs handlers every X blocks as configured", async () => {
-    const handler1 = jest.fn((b) => [
+    const handler1 = jest.fn(() => [
       {
         id: "finding1",
         finding: Finding.fromObject({
@@ -201,29 +193,23 @@ describe("Agent entrypoint", () => {
     );
 
     // Block 2 returns findings
-    let findings = await handleBlock(
-      createBlockEvent({ block: { ...block, number: 2 } })
-    );
+    let findings = await handleBlock(createBlockEvent({ block: { ...block, number: 2 } }));
     expect(findings.length).toEqual(1);
     expect(handler1).toBeCalledTimes(1);
 
     // Block 3 doesnt
-    findings = await handleBlock(
-      createBlockEvent({ block: { ...block, number: 3 } })
-    );
+    findings = await handleBlock(createBlockEvent({ block: { ...block, number: 3 } }));
     expect(findings.length).toEqual(0);
     expect(handler1).toBeCalledTimes(1);
 
     // Block 4 does
-    findings = await handleBlock(
-      createBlockEvent({ block: { ...block, number: 4 } })
-    );
+    findings = await handleBlock(createBlockEvent({ block: { ...block, number: 4 } }));
     expect(findings.length).toEqual(1);
     expect(handler1).toBeCalledTimes(2);
   });
 
   it("retries failed handlers", async () => {
-    const handler1 = async (b) => [
+    const handler1 = async () => [
       {
         id: "finding1",
         finding: Finding.fromObject({
@@ -238,7 +224,7 @@ describe("Agent entrypoint", () => {
     ];
 
     let handler2CallCount = 0;
-    const handler2 = async (b) => {
+    const handler2 = async () => {
       if (handler2CallCount < 2) {
         handler2CallCount++;
         throw new Error("This handler2 has failed :-(");

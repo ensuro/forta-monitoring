@@ -23,14 +23,18 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@ensuro/core": "^2.0.1",
+    "@ensuro/core": "^2.5.0",
     "big.js": "^6.2.1",
-    "forta-agent": "^0.1.16",
+    "forta-agent": "^0.1.33",
     "rollbar": "^2.26.1"
   },
   "devDependencies": {
     "@types/jest": "^29.2.1",
+    "axios": "^1.4.0",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.9.0",
     "jest": "^27.0.6",
-    "nodemon": "^2.0.8"
+    "nodemon": "^2.0.8",
+    "prettier": "^3.0.0"
   }
 }

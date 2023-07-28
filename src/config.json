@@ -1,10 +1,25 @@
 {
   "enabled": [
-    { "name": "gasBalance", "runEvery": 250 },
-    { "name": "tokenBalance", "runEvery": 14000 },
-    { "name": "exposure", "runEvery": 150 },
-    { "name": "paDeficit", "runEvery": 30 },
-    { "name": "etkUtilizationRate", "runEvery": 270 }
+    {
+      "name": "gasBalance",
+      "runEvery": 250
+    },
+    {
+      "name": "tokenBalance",
+      "runEvery": 14000
+    },
+    {
+      "name": "exposure",
+      "runEvery": 150
+    },
+    {
+      "name": "paDeficit",
+      "runEvery": 30
+    },
+    {
+      "name": "etkUtilizationRate",
+      "runEvery": 270
+    }
   ],
   "minIntervalSeconds": 0,
   "erc20Tokens": {
@@ -53,14 +68,59 @@
           "warnThresh": "500",
           "critThresh": "100",
           "token": "USDC"
+        },
+        {
+          "name": "Revo CFL Low",
+          "address": "0x2bB7644221CfcC35A1C99ed7167391Ff82Fe4C08",
+          "warnThresh": "500",
+          "critThresh": "100",
+          "token": "USDC"
+        },
+        {
+          "name": "Revo CFL High",
+          "address": "0xe7DC8CDb94f0A44a930294AcC8F2f28DFD3cdEaE",
+          "warnThresh": "500",
+          "critThresh": "100",
+          "token": "USDC"
+        },
+        {
+          "name": "Spot CFL",
+          "address": "0x48Ff8B1493c6A3545Aea3F0812f1303E2f958bF4",
+          "warnThresh": "500",
+          "critThresh": "100",
+          "token": "USDC"
         }
       ]
     },
     "paDeficit": {
       "premiumsAccounts": [
         {
-          "name": "PA Koala",
+          "name": "Innov Zone",
+          "address": "0x4f43B8F252887F814ED689346fdb5Bd266394520",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "Koala",
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "Parachute",
+          "address": "0x06347eA3dA6a5B44eEAe3B8F4a65992Ae073e6F4",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "Revo",
+          "address": "0x47f35B4876138b5d96FfDed1e46aE6b58E6e7B31",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "Spot",
+          "address": "0x42118Df6EBb18346ca425f1c67AC739E95aD9358",
           "warnThresh": "0.3",
           "critThresh": "0.5"
         }
@@ -69,8 +129,14 @@
     "exposure": {
       "riskModules": [
         {
-          "name": "Koala v2",
-          "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
+          "name": "Fortune Credit",
+          "address": "0x4D85a3e264bb58Ccfa48607F39Ef01e59893121C",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
+          "name": "Koala BizAway BMA",
+          "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
           "warnThresh": "0.8",
           "critThresh": "0.9"
         },
@@ -81,15 +147,51 @@
           "critThresh": "0.7"
         },
         {
-          "name": "Koala BizAway BMA",
-          "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
+          "name": "Koala v2",
+          "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
           "warnThresh": "0.8",
           "critThresh": "0.9"
+        },
+        {
+          "name": "Revo Low Risk",
+          "address": "0x42842f88c3ea0eB39f3303A80a03f7F55DB31b28",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
+          "name": "Revo Mid-High Risk",
+          "address": "0xDfC75aa0CEAb89c40cd4B78E7F4179632fe06e93",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
+          "name": "Spot",
+          "address": "0xe64b6B463c3B3Cb3475fb940B64Ef6f946D6F460",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
+          "name": "StormStrong",
+          "address": "0xdad2dFE1450618e1C90c86bdb0895BcFCaDD4Df5",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
         }
       ]
     },
     "etkUtilizationRate": {
       "etokens": [
+        {
+          "name": "eToken Jr Revo",
+          "address": "0x6A0e61C757e384eB1E4A2b94F7E02E68e4b4515e",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "eToken Jr StormStrong",
+          "address": "0xE36D6585F0c200195b196C66644C519e7674b476",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
         {
           "name": "Innov Zone Junior Pool",
           "address": "0x1C48Accaf6f8106883AA1973A45F02525652DEfC",
@@ -119,6 +221,12 @@
           "address": "0xF383eF2D31E1d4a19B3e04ca2937DB6A8DA9f229",
           "warnThresh": "0.9",
           "critThresh": "0.95"
+        },
+        {
+          "name": "Spot Junior Tranche",
+          "address": "0x6229D78658305a301E177f9dAEa3a0799fd1528C",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         }
       ]
     }

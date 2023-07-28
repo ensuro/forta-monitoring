@@ -1,10 +1,4 @@
-const {
-  getEthersProvider,
-  Finding,
-  FindingSeverity,
-  FindingType,
-  ethers,
-} = require("forta-agent");
+const { getEthersProvider, Finding, FindingSeverity, FindingType } = require("forta-agent");
 const Big = require("big.js");
 
 const { getERC20Balance, getERC20Contract } = require("../erc20");
@@ -27,11 +21,7 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
 
     await Promise.all(
       monitoredAccounts.map(async (account) => {
-        const accountBalance = await getERC20Balance(
-          account,
-          erc20ContractFactory,
-          blockEvent.blockNumber
-        );
+        const accountBalance = await getERC20Balance(account, erc20ContractFactory, blockEvent.blockNumber);
 
         const warnThresh = Big(account.warnThresh);
         const critThresh = Big(account.critThresh);
@@ -40,12 +30,8 @@ function createHandleBlock(getEthersProvider, accounts, erc20ContractGetter) {
           findings.push(
             createFinding(
               accountBalance.lt(critThresh) ? "critBalance" : "warnBalance",
-              accountBalance.lt(critThresh)
-                ? "Critically low token balance"
-                : "Low token balance",
-              accountBalance.lt(critThresh)
-                ? FindingSeverity.Critical
-                : FindingSeverity.High,
+              accountBalance.lt(critThresh) ? "Critically low token balance" : "Low token balance",
+              accountBalance.lt(critThresh) ? FindingSeverity.Critical : FindingSeverity.High,
               account,
               accountBalance.lt(critThresh) ? "critThresh" : "warnThresh",
               accountBalance
@@ -69,20 +55,16 @@ function createFinding(id, name, severity, account, thresholdKey, balance) {
       alertId: namespacedId,
       name: name,
       severity: severity,
-      description: `${account.token} balance for ${account.name} (${
-        account.address
-      }) is ${balance.toFixed(4)}, below ${account[thresholdKey]} thresh.`,
+      description: `${account.token} balance for ${account.name} (${account.address}) is ${balance.toFixed(4)}, below ${
+        account[thresholdKey]
+      } thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),
   };
 }
 
-const tokenBalance = createHandleBlock(
-  getEthersProvider,
-  accounts,
-  getERC20Contract
-);
+const tokenBalance = createHandleBlock(getEthersProvider, accounts, getERC20Contract);
 
 module.exports = {
   tokenBalance,
