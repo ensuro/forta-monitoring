@@ -1,10 +1,4 @@
-const {
-  getEthersProvider,
-  Finding,
-  FindingSeverity,
-  FindingType,
-  ethers,
-} = require("forta-agent");
+const { getEthersProvider, Finding, FindingSeverity, FindingType } = require("forta-agent");
 const Big = require("big.js");
 
 const { wadToBigDecimal } = require("../utils");
@@ -25,9 +19,7 @@ function createHandleBlock(getEthersProvider, accounts) {
     await Promise.all(
       monitoredAccounts.map(async (account) => {
         let accountBalance;
-        accountBalance = wadToBigDecimal(
-          await provider.getBalance(account.address, blockEvent.blockNumber)
-        );
+        accountBalance = wadToBigDecimal(await provider.getBalance(account.address, blockEvent.blockNumber));
 
         const warnThresh = Big(account.warnThresh);
         const critThresh = Big(account.critThresh);
@@ -36,12 +28,8 @@ function createHandleBlock(getEthersProvider, accounts) {
           findings.push(
             createFinding(
               accountBalance.lt(critThresh) ? "critBalance" : "warnBalance",
-              accountBalance.lt(critThresh)
-                ? "Critically low balance"
-                : "Low balance",
-              accountBalance.lt(critThresh)
-                ? FindingSeverity.Critical
-                : FindingSeverity.High,
+              accountBalance.lt(critThresh) ? "Critically low balance" : "Low balance",
+              accountBalance.lt(critThresh) ? FindingSeverity.Critical : FindingSeverity.High,
               account,
               accountBalance.lt(critThresh) ? "critThresh" : "warnThresh",
               accountBalance
@@ -65,9 +53,9 @@ function createFinding(id, name, severity, account, thresholdKey, balance) {
       alertId: namespacedId,
       name: name,
       severity: severity,
-      description: `Balance for ${account.name} (${
-        account.address
-      }) is ${balance.toFixed(4)}, below ${account[thresholdKey]} thresh.`,
+      description: `Balance for ${account.name} (${account.address}) is ${balance.toFixed(4)}, below ${
+        account[thresholdKey]
+      } thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),

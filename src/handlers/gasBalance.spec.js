@@ -4,9 +4,7 @@ const Big = require("big.js");
 const { createHandleBlock, createFinding } = require("./gasBalance");
 const config = require("../config.json");
 
-const USDC_UNIT = ethers.BigNumber.from(10).pow(
-  config.erc20Tokens.USDC.decimals
-);
+const USDC_UNIT = ethers.BigNumber.from(10).pow(config.erc20Tokens.USDC.decimals);
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -23,9 +21,7 @@ function mockProvider(accounts) {
   );
 
   const provider = { getBalance: jest.fn() };
-  provider.getBalance.mockImplementation(
-    (address, blockNumber) => accountBalances[address]
-  );
+  provider.getBalance.mockImplementation((address) => accountBalances[address]);
   return provider;
 }
 
@@ -72,14 +68,7 @@ describe("Balance monitoring agent", () => {
     const findings = await handleBlock(blockEvent);
 
     expect(findings).toStrictEqual([
-      createFinding(
-        "warnBalance",
-        "Low balance",
-        FindingSeverity.High,
-        accounts[0],
-        "warnThresh",
-        Big("15")
-      ),
+      createFinding("warnBalance", "Low balance", FindingSeverity.High, accounts[0], "warnThresh", Big("15")),
     ]);
   });
 
@@ -145,23 +134,14 @@ describe("Balance monitoring agent", () => {
         "critThresh",
         Big("9")
       ),
-      createFinding(
-        "warnBalance",
-        "Low balance",
-        FindingSeverity.High,
-        accounts[1],
-        "warnThresh",
-        Big("15")
-      ),
+      createFinding("warnBalance", "Low balance", FindingSeverity.High, accounts[1], "warnThresh", Big("15")),
     ]);
   });
 
   it("matic balance monitoring is unaffected by erc20 balances", async () => {
     const balanceOf = jest.fn();
     const contractGetter = () => ({
-      balanceOf: balanceOf.mockImplementation(() =>
-        ethers.BigNumber.from("8").mul(USDC_UNIT)
-      ),
+      balanceOf: balanceOf.mockImplementation(() => ethers.BigNumber.from("8").mul(USDC_UNIT)),
     });
 
     const accounts = [
@@ -174,11 +154,7 @@ describe("Balance monitoring agent", () => {
       },
     ];
     const provider = mockProvider(accounts);
-    const handleBlock = createHandleBlock(
-      () => provider,
-      accounts,
-      contractGetter
-    );
+    const handleBlock = createHandleBlock(() => provider, accounts, contractGetter);
 
     const blockEvent = createBlockEvent({ block: block });
 
