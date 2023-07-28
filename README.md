@@ -15,6 +15,28 @@ To add a new bot:
 
 - Polygon
 
+## Regenerating config from offchain data
+
+For handlers that operate on protocol contracts, the config can be refreshed by fetching the contracts list from offchain:
+
+```sh
+node scripts/configGenerate.js > newConfig.json
+```
+
+Review the new config and move the `newConfig.json` file into `src/config.json`.
+
+## Running in debug mode
+
+Most handlers run every X blocks to avoid overloading the node with queries.
+
+When testing a new config or a code change, it is desirable to have handlers run on every block, otherwise you'd have to wait for X blocks before confirming that the change works as expected.
+
+You can get all handlers to run on all blocks by exporting the `DEBUG_MODE=true` env var:
+
+```sh
+DEBUG_MODE=true npm start
+```
+
 # Bot details
 
 ## Gas and erc20 balance monitoring
@@ -46,7 +68,7 @@ The agent behaviour can be verified with the following blocks:
 - 37740600 (0.3 USDC)
 - 37721100 (4000 USDC)
 
-You can test against this blocks with `npm run block $BLOCK_NUMBER`.
+You can test against this blocks with `DEBUG_MODE=true npm run block $BLOCK_NUMBER`.
 
 ## Premiums account deficit
 
@@ -96,7 +118,7 @@ The agent behaviour can be verified with the following blocks:
 - 36901650 (53% exposure on Koala V2 (0xa65c9dE776d1f30c095EFF9C775E001a1d366df8))
 - 38878342 (no alerts, 32% exposure on Koala V2 and 4% exposure on Koala Partner B)
 
-You can test against this blocks with `npm run block $BLOCK_NUMBER`.
+You can test against this blocks with `DEBUG_MODE=true npm run block $BLOCK_NUMBER`.
 
 ## EToken utilization rate monitoring
 
@@ -131,4 +153,4 @@ The agent behaviour can be verified with the following blocks:
 
 - 43884039 (99% UR on Koala Jr (BMA reg.) (0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6))
 
-You can test against this blocks with `npm run block $BLOCK_NUMBER`.
+You can test against this blocks with `DEBUG_MODE=true npm run block $BLOCK_NUMBER`.

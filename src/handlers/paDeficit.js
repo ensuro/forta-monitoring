@@ -1,10 +1,4 @@
-const {
-  getEthersProvider,
-  Finding,
-  FindingSeverity,
-  FindingType,
-  ethers,
-} = require("forta-agent");
+const { getEthersProvider, Finding, FindingSeverity, FindingType, ethers } = require("forta-agent");
 const Big = require("big.js");
 
 const PremiumsAccountSpec = require("@ensuro/core/build/contracts/PremiumsAccount.sol/PremiumsAccount.json");
@@ -15,11 +9,7 @@ const config = require("../config.json");
 
 const premiumsAccounts = config.handlers.paDeficit.premiumsAccounts;
 
-function createHandleBlock(
-  getEthersProvider,
-  premiumsAccounts,
-  paContractGetter
-) {
+function createHandleBlock(getEthersProvider, premiumsAccounts, paContractGetter) {
   const provider = getEthersProvider();
   const paContractFactory = (pa) => paContractGetter(pa, provider);
 
@@ -39,7 +29,7 @@ function createHandleBlock(
           config.erc20Tokens.USDC
         );
 
-        const ratio = deficit.div(activePurePremiums);
+        const ratio = activePurePremiums.eq(0) ? deficit : deficit.div(activePurePremiums);
 
         const warnThresh = Big(pa.warnThresh);
         const critThresh = Big(pa.critThresh);
@@ -49,9 +39,7 @@ function createHandleBlock(
             createFinding(
               ratio.gt(critThresh) ? "critDeficit" : "warnDeficit",
               ratio.gt(critThresh) ? "Critically high deficit" : "High deficit",
-              ratio.gt(critThresh)
-                ? FindingSeverity.Critical
-                : FindingSeverity.High,
+              ratio.gt(critThresh) ? FindingSeverity.Critical : FindingSeverity.High,
               pa,
               ratio.gt(critThresh) ? "critThresh" : "warnThresh",
               ratio
@@ -77,11 +65,7 @@ function createHandleBlock(
 }
 
 function getPremiumsAccountContract(premiumsAccount, provider) {
-  return new ethers.Contract(
-    premiumsAccount.address,
-    PremiumsAccountSpec.abi,
-    provider
-  );
+  return new ethers.Contract(premiumsAccount.address, PremiumsAccountSpec.abi, provider);
 }
 
 /**
@@ -110,9 +94,7 @@ function createFinding(id, name, severity, pa, thresholdKey, ratio) {
       alertId: namespacedId,
       name: name,
       severity: severity,
-      description: `Deficit for ${pa.name} (${pa.address}) is ${ratio.toFixed(
-        2
-      )}, above ${pa[thresholdKey]} thresh.`,
+      description: `Deficit for ${pa.name} (${pa.address}) is ${ratio.toFixed(2)}, above ${pa[thresholdKey]} thresh.`,
       protocol: "ensuro",
       type: FindingType.Info,
       addresses: [pa.address],
@@ -120,11 +102,7 @@ function createFinding(id, name, severity, pa, thresholdKey, ratio) {
   };
 }
 
-const paDeficit = createHandleBlock(
-  getEthersProvider,
-  premiumsAccounts,
-  getPremiumsAccountContract
-);
+const paDeficit = createHandleBlock(getEthersProvider, premiumsAccounts, getPremiumsAccountContract);
 
 module.exports = {
   paDeficit,

@@ -9,6 +9,8 @@ const RollbarLocals = require("rollbar/src/server/locals");
 
 const config = require("./config.json");
 
+const DEBUG_MODE = process.env.DEBUG_MODE === "true";
+
 const handlers = {
   gasBalance,
   tokenBalance,
@@ -50,7 +52,7 @@ function createHandleBlock(getHandlers, getConfig) {
         throw new Error(`Unknown handler ${handlerName}`);
       }
 
-      if (blockEvent.blockNumber % runEvery === 0)
+      if (DEBUG_MODE || blockEvent.blockNumber % runEvery === 0)
         results.push(
           retry(
             async () => handler(blockEvent),
