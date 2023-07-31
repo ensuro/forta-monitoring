@@ -187,12 +187,6 @@
           "critThresh": "0.9"
         },
         {
-          "name": "eToken Jr StormStrong",
-          "address": "0xE36D6585F0c200195b196C66644C519e7674b476",
-          "warnThresh": "0.8",
-          "critThresh": "0.9"
-        },
-        {
           "name": "Innov Zone Junior Pool",
           "address": "0x1C48Accaf6f8106883AA1973A45F02525652DEfC",
           "warnThresh": "0.9",
