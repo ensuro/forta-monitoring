@@ -21,6 +21,7 @@
       "runEvery": 270
     }
   ],
+  "txEnabled": ["failedTransactions"],
   "minIntervalSeconds": 0,
   "erc20Tokens": {
     "USDC": {
@@ -31,6 +32,12 @@
   "rollbarAccessToken": "66d51fc7d9ff495a9247152a2a369ce0",
   "rollbarEnabled": true,
   "handlers": {
+    "failedTransactions": {
+      "accounts": [
+        { "name": "Innovation Zone Relay", "address": "0x257D6896F0053648F9bB9310ef3b046fc2079994" },
+        { "name": "Restricted Executor", "address": "0x11Ca23Ef7d05fF86EECd8FE8324f35693bd27Cc9" }
+      ]
+    },
     "gasBalance": {
       "accounts": [
         {

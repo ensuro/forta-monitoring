@@ -154,3 +154,22 @@ The agent behaviour can be verified with the following blocks:
 - 43884039 (99% UR on Koala Jr (BMA reg.) (0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6))
 
 You can test against this blocks with `DEBUG_MODE=true npm run block $BLOCK_NUMBER`.
+
+## Failed transaction monitoring
+
+### Description
+
+Alerts when a failed transaction from a given address is seen.
+
+### Alerts
+
+- `failedTransactions`
+  - Fired when a matching transaction is found
+  - Severity is always set to "high"
+  - Type is always set to info
+
+### Test data
+
+The agent behaviout can be verified with the following blocks:
+
+- 45229979 (Failed transaction for Innovation Zone Relay(0x257D6896F0053648F9bB9310ef3b046fc2079994))
