@@ -1,6 +1,6 @@
-const { FindingType, FindingSeverity, Finding, createBlockEvent } = require("forta-agent");
+const { FindingType, FindingSeverity, Finding, createBlockEvent, createTransactionEvent } = require("forta-agent");
 
-const { createHandleBlock } = require("./agent");
+const { createHandleBlock, createHandleTransaction } = require("./agent");
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -8,7 +8,7 @@ const block = {
   number: 10,
 };
 
-describe("Agent entrypoint", () => {
+describe("Block handling logic", () => {
   it("Must run configured handlers", async () => {
     const handler1 = jest.fn(() => [
       {
@@ -253,5 +253,64 @@ describe("Agent entrypoint", () => {
     let blockEvent = createBlockEvent({ block: block });
     const findings = await handleBlock(blockEvent);
     expect(findings.length).toEqual(2);
+  });
+});
+
+describe("Transaction handling logic", () => {
+  it("Must run configured handlers", async () => {
+    const handler1 = jest.fn(() => [
+      {
+        id: "finding1",
+        finding: Finding.fromObject({
+          alertId: "handler1",
+          name: "handler1 alert",
+          severity: FindingSeverity.High,
+          description: `A high severity alert`,
+          protocol: "test",
+          type: FindingType.Info,
+        }),
+      },
+    ]);
+
+    const handler2 = jest.fn(() => []);
+
+    const handleTransaction = createHandleTransaction(
+      () => ({ handler1, handler2 }),
+      () => ({ txEnabled: ["handler1", "handler2"] })
+    );
+
+    const blockEvent = createBlockEvent({ block: block });
+
+    const findings = await handleTransaction(blockEvent);
+
+    expect(findings).toStrictEqual([
+      Finding.fromObject({
+        alertId: "handler1",
+        name: "handler1 alert",
+        severity: FindingSeverity.High,
+        description: `A high severity alert`,
+        protocol: "test",
+        type: FindingType.Info,
+      }),
+    ]);
+
+    expect(handler1).toHaveBeenCalledWith(blockEvent);
+    expect(handler1.mock.calls.length).toEqual(1);
+
+    expect(handler2).toHaveBeenCalledWith(blockEvent);
+    expect(handler2.mock.calls.length).toEqual(1);
+  });
+
+  it("throws for unknown handlers", async () => {
+    const handler1 = jest.fn(() => []);
+
+    const handleTransaction = createHandleTransaction(
+      () => ({ handler1 }),
+      () => ({ txEnabled: ["handler1", "handler2"] })
+    );
+
+    const txEvent = createTransactionEvent({});
+
+    await expect(async () => handleTransaction(txEvent)).rejects.toThrow(new Error("Unknown handler handler2"));
   });
 });
