@@ -144,8 +144,8 @@
         {
           "name": "Koala BizAway BMA",
           "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
-          "warnThresh": "0.85",
-          "critThresh": "0.9"
+          "warnThresh": "0.95",
+          "critThresh": "0.97"
         },
         {
           "name": "Koala Partner B",
