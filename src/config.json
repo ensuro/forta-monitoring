@@ -72,8 +72,8 @@
         {
           "name": "Bizaway CFL",
           "address": "0x0917c28B736746F9A32652CD2c66e918Cc9d26C9",
-          "warnThresh": "500",
-          "critThresh": "100",
+          "warnThresh": "1000",
+          "critThresh": "500",
           "token": "USDC"
         },
         {
@@ -93,8 +93,8 @@
         {
           "name": "Spot CFL",
           "address": "0x48Ff8B1493c6A3545Aea3F0812f1303E2f958bF4",
-          "warnThresh": "500",
-          "critThresh": "100",
+          "warnThresh": "2000",
+          "critThresh": "1000",
           "token": "USDC"
         }
       ]
