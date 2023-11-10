@@ -29,7 +29,7 @@
       "decimals": 6
     }
   },
-  "rollbarAccessToken": "66d51fc7d9ff495a9247152a2a369ce0",
+  "rollbarAccessToken": "8d24194ddfab454b95a4a762b597c66d",
   "rollbarEnabled": true,
   "handlers": {
     "failedTransactions": {
