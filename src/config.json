@@ -29,8 +29,8 @@
       "decimals": 6
     }
   },
-  "rollbarAccessToken": "8d24194ddfab454b95a4a762b597c66d",
-  "rollbarEnabled": true,
+  "rollbarAccessToken": "none",
+  "rollbarEnabled": false,
   "handlers": {
     "failedTransactions": {
       "accounts": [
