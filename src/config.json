@@ -34,8 +34,14 @@
   "handlers": {
     "failedTransactions": {
       "accounts": [
-        { "name": "Innovation Zone Relay", "address": "0x257D6896F0053648F9bB9310ef3b046fc2079994" },
-        { "name": "Restricted Executor", "address": "0x11Ca23Ef7d05fF86EECd8FE8324f35693bd27Cc9" }
+        {
+          "name": "Innovation Zone Relay",
+          "address": "0x257D6896F0053648F9bB9310ef3b046fc2079994"
+        },
+        {
+          "name": "Restricted Executor",
+          "address": "0x11Ca23Ef7d05fF86EECd8FE8324f35693bd27Cc9"
+        }
       ]
     },
     "gasBalance": {
@@ -102,6 +108,12 @@
     "paDeficit": {
       "premiumsAccounts": [
         {
+          "name": "Barker",
+          "address": "0xa5A8c6b6cb08dB75F5d487F0838D0743871d80a7",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
           "name": "Innov Zone",
           "address": "0x4f43B8F252887F814ED689346fdb5Bd266394520",
           "warnThresh": "0.3",
@@ -110,6 +122,12 @@
         {
           "name": "Koala",
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "Koala BMA",
+          "address": "0xc1A74eaC52a195E54E0cd672A9dAB023292C6100",
           "warnThresh": "0.3",
           "critThresh": "0.5"
         },
@@ -135,6 +153,12 @@
     },
     "exposure": {
       "riskModules": [
+        {
+          "name": "Barker",
+          "address": "0xA2f279160deBaC2260FFD9e7D43118C9c211683C",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
         {
           "name": "Fortune Credit",
           "address": "0x4D85a3e264bb58Ccfa48607F39Ef01e59893121C",
@@ -187,6 +211,12 @@
     },
     "etkUtilizationRate": {
       "etokens": [
+        {
+          "name": "eToken Jr Barker",
+          "address": "0x9F967c614c9573cc4eabE68ae0354E5d11F7eC9D",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
         {
           "name": "eToken Jr Revo",
           "address": "0x6A0e61C757e384eB1E4A2b94F7E02E68e4b4515e",
