@@ -126,12 +126,6 @@
           "critThresh": "0.5"
         },
         {
-          "name": "Koala BMA",
-          "address": "0xc1A74eaC52a195E54E0cd672A9dAB023292C6100",
-          "warnThresh": "0.3",
-          "critThresh": "0.5"
-        },
-        {
           "name": "Parachute",
           "address": "0x06347eA3dA6a5B44eEAe3B8F4a65992Ae073e6F4",
           "warnThresh": "0.3",
