@@ -69,17 +69,10 @@
     "tokenBalance": {
       "accounts": [
         {
-          "name": "Koala CFL",
-          "address": "0xccd55D27aE681682f5Ed2B04EF21069D4EC24982",
-          "warnThresh": "2000",
+          "name": "Koala New CFL",
+          "address": "0xf6b7a278afFbc905b407E01893B287D516016ce0",
+          "warnThresh": "4000",
           "critThresh": "1000",
-          "token": "USDC"
-        },
-        {
-          "name": "Bizaway CFL",
-          "address": "0x0917c28B736746F9A32652CD2c66e918Cc9d26C9",
-          "warnThresh": "1000",
-          "critThresh": "500",
           "token": "USDC"
         },
         {
