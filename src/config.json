@@ -71,8 +71,8 @@
         {
           "name": "Koala New CFL",
           "address": "0xf6b7a278afFbc905b407E01893B287D516016ce0",
-          "warnThresh": "4000",
-          "critThresh": "1000",
+          "warnThresh": "8000",
+          "critThresh": "2000",
           "token": "USDC"
         },
         {
@@ -92,8 +92,8 @@
         {
           "name": "Spot CFL",
           "address": "0x48Ff8B1493c6A3545Aea3F0812f1303E2f958bF4",
-          "warnThresh": "2000",
-          "critThresh": "1000",
+          "warnThresh": "4000",
+          "critThresh": "2000",
           "token": "USDC"
         }
       ]
