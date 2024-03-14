@@ -107,6 +107,18 @@
           "critThresh": "0.5"
         },
         {
+          "name": "Bliss",
+          "address": "0x11b490292799a0edFE37797592F77151C4483442",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "DLT Alert",
+          "address": "0x8908d99a4E2fF6b7Bf4563593B02AcBc7bBfaBC1",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
           "name": "Innov Zone",
           "address": "0x4f43B8F252887F814ED689346fdb5Bd266394520",
           "warnThresh": "0.3",
@@ -115,6 +127,12 @@
         {
           "name": "Koala",
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "Otonomi",
+          "address": "0xE43587386E6e8FA127dd008770cdC07dE2Df91E9",
           "warnThresh": "0.3",
           "critThresh": "0.5"
         },
@@ -147,6 +165,18 @@
           "critThresh": "0.7"
         },
         {
+          "name": "Bliss",
+          "address": "0x43882aDe3Df425D7097f0ca62E8cf08E6bef8777",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
+          "name": "DLT Alert",
+          "address": "0x34C560b19DFD490E0d4b8054df35669092A94b78",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
           "name": "Fortune Credit",
           "address": "0x4D85a3e264bb58Ccfa48607F39Ef01e59893121C",
           "warnThresh": "0.5",
@@ -169,6 +199,12 @@
           "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
           "warnThresh": "0.8",
           "critThresh": "0.9"
+        },
+        {
+          "name": "Otonomi",
+          "address": "0x2E25a28EcBd7E8e70DABB1Ca79Bf6B4Ea5aaDa26",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
         },
         {
           "name": "Revo Low Risk",
@@ -199,14 +235,20 @@
     "etkUtilizationRate": {
       "etokens": [
         {
-          "name": "eToken Jr Barker",
+          "name": "Barker Junior Tranche",
           "address": "0x9F967c614c9573cc4eabE68ae0354E5d11F7eC9D",
           "warnThresh": "0.8",
           "critThresh": "0.9"
         },
         {
-          "name": "eToken Jr Revo",
-          "address": "0x6A0e61C757e384eB1E4A2b94F7E02E68e4b4515e",
+          "name": "Bliss Junior Tranche",
+          "address": "0x71d390C243706b713B5D2b077E942223f7A55d00",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "DLT Junior Tranche",
+          "address": "0x9078dDdeA2F82c27791EF78A9ec9ab0f66bfb6F9",
           "warnThresh": "0.8",
           "critThresh": "0.9"
         },
@@ -227,6 +269,12 @@
           "address": "0x8d2Ee82c4172B2138B06b8037d769cBfAf9C0274",
           "warnThresh": "0.9",
           "critThresh": "0.95"
+        },
+        {
+          "name": "Otonomi Junior Tranche",
+          "address": "0x32a9CBeb2cA148E55F327c6B4673351dD03eD858",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         },
         {
           "name": "Senior Tranche",
