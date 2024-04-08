@@ -243,8 +243,8 @@
         {
           "name": "Spot Junior Tranche",
           "address": "0x6229D78658305a301E177f9dAEa3a0799fd1528C",
-          "warnThresh": "0.8",
-          "critThresh": "0.9"
+          "warnThresh": "0.98",
+          "critThresh": "0.99"
         }
       ]
     }
