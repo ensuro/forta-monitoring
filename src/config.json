@@ -55,8 +55,8 @@
         {
           "name": "Innovation Zone",
           "address": "0x257d6896f0053648f9bb9310ef3b046fc2079994",
-          "warnThresh": "2.0",
-          "critThresh": "1.0"
+          "warnThresh": "10.0",
+          "critThresh": "5.0"
         },
         {
           "name": "Restricted Executor",
