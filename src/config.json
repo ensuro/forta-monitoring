@@ -95,6 +95,27 @@
           "warnThresh": "4000",
           "critThresh": "2000",
           "token": "USDC"
+        },
+        {
+          "name": "DLT CFL",
+          "address": "0xFEdDF0af6Aa75dfC175Bdab964D5a8F6683E1AAf",
+          "warnThresh": "500",
+          "critThresh": "200",
+          "token": "USDC"
+        },
+        {
+          "name": "Otonomi CFL",
+          "address": "0xa321383e5888EB9c2a24E90fEb0647EcE82f056c",
+          "warnThresh": "500",
+          "critThresh": "200",
+          "token": "USDC"
+        },
+        {
+          "name": "Bliss CFL",
+          "address": "0x936DAC0eeA5e4E90B8384B96d1aA6284Ce106f71",
+          "warnThresh": "500",
+          "critThresh": "200",
+          "token": "USDC"
         }
       ]
     },
