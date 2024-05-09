@@ -242,8 +242,8 @@
         {
           "name": "Spot",
           "address": "0xe64b6B463c3B3Cb3475fb940B64Ef6f946D6F460",
-          "warnThresh": "0.8",
-          "critThresh": "0.9"
+          "warnThresh": "0.9",
+          "critThresh": "0.98"
         },
         {
           "name": "StormStrong",
