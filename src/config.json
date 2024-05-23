@@ -19,6 +19,10 @@
     {
       "name": "etkUtilizationRate",
       "runEvery": 270
+    },
+    {
+      "name": "paLoanLimits",
+      "runEvery": 270
     }
   ],
   "txEnabled": ["failedTransactions"],
@@ -314,6 +318,70 @@
           "address": "0x6229D78658305a301E177f9dAEa3a0799fd1528C",
           "warnThresh": "0.98",
           "critThresh": "0.99"
+        }
+      ]
+    },
+    "paLoanLimits": {
+      "premiumsAccounts": [
+        {
+          "name": "Barker",
+          "address": "0xa5A8c6b6cb08dB75F5d487F0838D0743871d80a7",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Bliss",
+          "address": "0x11b490292799a0edFE37797592F77151C4483442",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "DLT Alert",
+          "address": "0x8908d99a4E2fF6b7Bf4563593B02AcBc7bBfaBC1",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Innov Zone",
+          "address": "0x4f43B8F252887F814ED689346fdb5Bd266394520",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Koala",
+          "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Otonomi",
+          "address": "0xE43587386E6e8FA127dd008770cdC07dE2Df91E9",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Parachute",
+          "address": "0x06347eA3dA6a5B44eEAe3B8F4a65992Ae073e6F4",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Revo",
+          "address": "0x47f35B4876138b5d96FfDed1e46aE6b58E6e7B31",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Spot",
+          "address": "0x42118Df6EBb18346ca425f1c67AC739E95aD9358",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Koala BMA",
+          "address": "0xc1A74eaC52a195E54E0cd672A9dAB023292C6100",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
         }
       ]
     }
