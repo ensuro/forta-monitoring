@@ -9,6 +9,7 @@ const Rollbar = require("rollbar");
 const RollbarLocals = require("rollbar/src/server/locals");
 
 const config = require("./config.json");
+const { paLoanLimits } = require("./handlers/paLoanLimits");
 
 const DEBUG_MODE = process.env.DEBUG_MODE === "true";
 
@@ -19,6 +20,7 @@ const blockHandlers = {
   exposure,
   etkUtilizationRate,
   dummy,
+  paLoanLimits,
 };
 
 const transactionHandlers = { failedTransactions };
@@ -27,7 +29,7 @@ function createHandleBlock(getHandlers, getConfig) {
   const handlers = getHandlers();
   const config = getConfig();
 
-  console.log("Running with block handlers: %s", config.enabled);
+  console.log("Running with block handlers: %s", JSON.stringify(config.enabled, null, 2));
 
   const rollbar = new Rollbar({
     accessToken: config.rollbarAccessToken || "notoken",

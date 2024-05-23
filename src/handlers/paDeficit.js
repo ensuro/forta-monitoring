@@ -1,8 +1,7 @@
-const { getEthersProvider, Finding, FindingSeverity, FindingType, ethers } = require("forta-agent");
+const { getEthersProvider, Finding, FindingSeverity, FindingType } = require("forta-agent");
 const Big = require("big.js");
 
-const PremiumsAccountSpec = require("@ensuro/core/build/contracts/PremiumsAccount.sol/PremiumsAccount.json");
-
+const { getPremiumsAccountContract } = require("../contracts");
 const { amountToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
@@ -62,10 +61,6 @@ function createHandleBlock(getEthersProvider, premiumsAccounts, paContractGetter
     return findings;
   }
   return handleBlock;
-}
-
-function getPremiumsAccountContract(premiumsAccount, provider) {
-  return new ethers.Contract(premiumsAccount.address, PremiumsAccountSpec.abi, provider);
 }
 
 /**
