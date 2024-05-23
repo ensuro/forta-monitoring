@@ -19,10 +19,6 @@
     {
       "name": "etkUtilizationRate",
       "runEvery": 270
-    },
-    {
-      "name": "paLoanLimits",
-      "runEvery": 270
     }
   ],
   "txEnabled": ["failedTransactions"],
