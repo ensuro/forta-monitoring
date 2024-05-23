@@ -1,7 +1,7 @@
 const { getEthersProvider, Finding, FindingSeverity, FindingType } = require("forta-agent");
 const Big = require("big.js");
 
-const { getERC20Balance, getERC20Contract } = require("../erc20");
+const { getERC20Balance, getERC20Contract } = require("../contracts");
 
 const config = require("../config.json");
 

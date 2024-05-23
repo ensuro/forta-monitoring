@@ -35,6 +35,12 @@ async function generateNewConfig(currentConfig) {
     "0.8",
     "0.9"
   );
+  config.handlers.paLoanLimits.premiumsAccounts = await regenerateFromAPI(
+    "premiumsaccounts",
+    config.handlers.paLoanLimits.premiumsAccounts,
+    "0.3",
+    "0.5"
+  );
 
   return config;
 }

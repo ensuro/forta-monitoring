@@ -1,14 +1,7 @@
-const {
-  getEthersProvider,
-  Finding,
-  FindingSeverity,
-  FindingType,
-  ethers,
-} = require("forta-agent");
+const { getEthersProvider, Finding, FindingSeverity, FindingType } = require("forta-agent");
 const Big = require("big.js");
 
-const ETokenSpec = require("@ensuro/core/build/contracts/EToken.sol/EToken.json");
-
+const { getETokenContract } = require("../contracts");
 const { amountToBigDecimal, wadToBigDecimal } = require("../utils");
 
 const config = require("../config.json");
@@ -42,9 +35,7 @@ function createHandleBlock(getEthersProvider, etokens, etkContractGetter) {
             blockTag: blockEvent.blockNumber,
           })
         );
-        const utilizationRate = totalSupply.gt(0)
-          ? scr.div(totalSupply)
-          : Big(0);
+        const utilizationRate = totalSupply.gt(0) ? scr.div(totalSupply) : Big(0);
 
         const maxScr = totalSupply.mul(maxUtilizationRate);
         const ratio = maxScr.gt(0) ? scr.div(maxScr) : Big(0);
@@ -55,15 +46,9 @@ function createHandleBlock(getEthersProvider, etokens, etkContractGetter) {
         if (ratio.gt(warnThresh)) {
           findings.push(
             createFinding(
-              ratio.gt(critThresh)
-                ? "critUtilizationRate"
-                : "warnUtilizationRate",
-              ratio.gt(critThresh)
-                ? "Critically high utilization rate"
-                : "High utilization rate",
-              ratio.gt(critThresh)
-                ? FindingSeverity.Critical
-                : FindingSeverity.High,
+              ratio.gt(critThresh) ? "critUtilizationRate" : "warnUtilizationRate",
+              ratio.gt(critThresh) ? "Critically high utilization rate" : "High utilization rate",
+              ratio.gt(critThresh) ? FindingSeverity.Critical : FindingSeverity.High,
               etk,
               ratio.gt(critThresh) ? "critThresh" : "warnThresh",
               utilizationRate,
@@ -79,10 +64,6 @@ function createHandleBlock(getEthersProvider, etokens, etkContractGetter) {
   return handleBlock;
 }
 
-function getETokenContract(etoken, provider) {
-  return new ethers.Contract(etoken.address, ETokenSpec.abi, provider);
-}
-
 function createFinding(id, name, severity, etk, thresholdKey, ur, maxUR) {
   const namespacedId = `etkUtilizationRate.${id}`;
   return {
@@ -91,20 +72,16 @@ function createFinding(id, name, severity, etk, thresholdKey, ur, maxUR) {
       alertId: namespacedId,
       name: name,
       severity: severity,
-      description: `Utilization rate for ${etk.name} (${etk.address}) is ${
-        ur.toFixed(2) * 100
-      }%, above ${etk[thresholdKey] * 100}% of maxUR ${maxUR * 100}%.`,
+      description: `Utilization rate for ${etk.name} (${etk.address}) is ${ur.toFixed(2) * 100}%, above ${
+        etk[thresholdKey] * 100
+      }% of maxUR ${maxUR * 100}%.`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),
   };
 }
 
-const etkUtilizationRate = createHandleBlock(
-  getEthersProvider,
-  etokens,
-  getETokenContract
-);
+const etkUtilizationRate = createHandleBlock(getEthersProvider, etokens, getETokenContract);
 
 module.exports = {
   etkUtilizationRate,
