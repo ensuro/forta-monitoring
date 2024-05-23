@@ -46,7 +46,7 @@ describe("Premiums account Loan Limit monitoring", () => {
   });
 
   it("returns empty findings when loan ratio is below threshold", async () => {
-    const { premiumsAccount, jrEtk, srEtk, getEtk, getPremiumsAccount } = getMockFactories();
+    const { premiumsAccount, jrEtk, srEtk, getEtk, getPremiumsAccount } = getMockFactories({});
 
     const handleBlock = createHandleBlock(() => {}, premiumsAccounts, getPremiumsAccount, getEtk);
 
@@ -149,9 +149,9 @@ function getEtkMock(implementations) {
 }
 
 function getMockFactories(implementations) {
-  const premiumsAccount = getPremiumsAccountMock(implementations?.premiumsAccount || {});
-  const jrEtk = getEtkMock(implementations?.jrEtk || {});
-  const srEtk = getEtkMock(implementations?.srEtk || {});
+  const premiumsAccount = getPremiumsAccountMock(implementations.premiumsAccount || {});
+  const jrEtk = getEtkMock(implementations.jrEtk || {});
+  const srEtk = getEtkMock(implementations.srEtk || {});
 
   function getEtk({ address }) {
     if (address === premiumsAccount.juniorEtk()) return jrEtk;
