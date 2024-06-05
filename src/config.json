@@ -41,10 +41,6 @@
         {
           "name": "Innovation Zone Relay",
           "address": "0x257D6896F0053648F9bB9310ef3b046fc2079994"
-        },
-        {
-          "name": "Restricted Executor",
-          "address": "0x11Ca23Ef7d05fF86EECd8FE8324f35693bd27Cc9"
         }
       ]
     },
@@ -61,12 +57,6 @@
           "address": "0x257d6896f0053648f9bb9310ef3b046fc2079994",
           "warnThresh": "10.0",
           "critThresh": "5.0"
-        },
-        {
-          "name": "Restricted Executor",
-          "address": "0x11ca23ef7d05ff86eecd8fe8324f35693bd27cc9",
-          "warnThresh": "2.0",
-          "critThresh": "1.0"
         }
       ]
     },
