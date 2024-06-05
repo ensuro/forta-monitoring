@@ -101,8 +101,8 @@
         {
           "name": "Bliss CFL",
           "address": "0x936DAC0eeA5e4E90B8384B96d1aA6284Ce106f71",
-          "warnThresh": "500",
-          "critThresh": "200",
+          "warnThresh": "2000",
+          "critThresh": "1000",
           "token": "USDC"
         }
       ]
