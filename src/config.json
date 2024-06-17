@@ -192,12 +192,6 @@
           "critThresh": "0.7"
         },
         {
-          "name": "Koala BMA",
-          "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
-          "warnThresh": "0.97",
-          "critThresh": "0.99"
-        },
-        {
           "name": "Koala Legacy",
           "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
           "warnThresh": "0.8",
