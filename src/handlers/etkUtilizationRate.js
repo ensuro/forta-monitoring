@@ -51,8 +51,7 @@ function createHandleBlock(getEthersProvider, etokens, etkContractGetter) {
               ratio.gt(critThresh) ? FindingSeverity.Critical : FindingSeverity.High,
               etk,
               ratio.gt(critThresh) ? "critThresh" : "warnThresh",
-              utilizationRate,
-              maxUtilizationRate
+              { utilizationRate, maxUtilizationRate, scr, maxScr }
             )
           );
         }
@@ -64,7 +63,7 @@ function createHandleBlock(getEthersProvider, etokens, etkContractGetter) {
   return handleBlock;
 }
 
-function createFinding(id, name, severity, etk, thresholdKey, ur, maxUR) {
+function createFinding(id, name, severity, etk, thresholdKey, { utilizationRate, maxUtilizationRate, scr, maxScr }) {
   const namespacedId = `etkUtilizationRate.${id}`;
   return {
     id: `${namespacedId}-${etk.address}`,
@@ -72,9 +71,9 @@ function createFinding(id, name, severity, etk, thresholdKey, ur, maxUR) {
       alertId: namespacedId,
       name: name,
       severity: severity,
-      description: `Utilization rate for ${etk.name} (${etk.address}) is ${ur.toFixed(2) * 100}%, above ${
+      description: `Utilization rate for ${etk.name} (${etk.address}) is ${utilizationRate.toFixed(2) * 100}%, above ${
         etk[thresholdKey] * 100
-      }% of maxUR ${maxUR * 100}%.`,
+      }% of maxUR ${maxUtilizationRate * 100}%. $${scr.toFixed(2)}/$${maxScr.toFixed(2)}`,
       protocol: "ensuro",
       type: FindingType.Info,
     }),

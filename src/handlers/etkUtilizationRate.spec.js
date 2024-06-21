@@ -4,9 +4,7 @@ const Big = require("big.js");
 const { createHandleBlock, createFinding } = require("./etkUtilizationRate");
 const config = require("../config.json");
 
-const USDC_UNIT = ethers.BigNumber.from(10).pow(
-  config.erc20Tokens.USDC.decimals
-);
+const USDC_UNIT = ethers.BigNumber.from(10).pow(config.erc20Tokens.USDC.decimals);
 
 const block = {
   hash: `0x${"0".repeat(64)}`,
@@ -33,15 +31,9 @@ describe("ETK Utilization rate monitoring", () => {
 
   it("returns empty findings when utilization rate is below thresholds", async () => {
     const contractGetter = () => ({
-      totalSupply: totalSupply.mockImplementation(() =>
-        ethers.BigNumber.from("1000").mul(USDC_UNIT)
-      ),
-      scr: scr.mockImplementation(() =>
-        ethers.BigNumber.from("100").mul(USDC_UNIT)
-      ),
-      maxUtilizationRate: maxUtilizationRate.mockImplementation(() =>
-        ethers.utils.parseEther("0.5")
-      ),
+      totalSupply: totalSupply.mockImplementation(() => ethers.BigNumber.from("1000").mul(USDC_UNIT)),
+      scr: scr.mockImplementation(() => ethers.BigNumber.from("100").mul(USDC_UNIT)),
+      maxUtilizationRate: maxUtilizationRate.mockImplementation(() => ethers.utils.parseEther("0.5")),
     });
 
     const handleBlock = createHandleBlock(() => {}, etks, contractGetter);
@@ -64,15 +56,9 @@ describe("ETK Utilization rate monitoring", () => {
 
   it("returns high severity finding when utilizationRate is above warn threshold", async () => {
     const contractGetter = () => ({
-      totalSupply: totalSupply.mockImplementation(() =>
-        ethers.BigNumber.from("1000").mul(USDC_UNIT)
-      ),
-      scr: scr.mockImplementation(() =>
-        ethers.BigNumber.from("455").mul(USDC_UNIT)
-      ),
-      maxUtilizationRate: maxUtilizationRate.mockImplementation(() =>
-        ethers.utils.parseEther("0.5")
-      ),
+      totalSupply: totalSupply.mockImplementation(() => ethers.BigNumber.from("1000").mul(USDC_UNIT)),
+      scr: scr.mockImplementation(() => ethers.BigNumber.from("455").mul(USDC_UNIT)),
+      maxUtilizationRate: maxUtilizationRate.mockImplementation(() => ethers.utils.parseEther("0.5")),
     });
 
     const handleBlock = createHandleBlock(() => {}, etks, contractGetter);
@@ -82,29 +68,20 @@ describe("ETK Utilization rate monitoring", () => {
     const findings = await handleBlock(blockEvent);
 
     expect(findings).toStrictEqual([
-      createFinding(
-        "warnUtilizationRate",
-        "High utilization rate",
-        FindingSeverity.High,
-        etks[0],
-        "warnThresh",
-        Big("0.455"),
-        Big("0.5")
-      ),
+      createFinding("warnUtilizationRate", "High utilization rate", FindingSeverity.High, etks[0], "warnThresh", {
+        utilizationRate: Big("0.455"),
+        maxUtilizationRate: Big("0.5"),
+        scr: Big("455"),
+        maxScr: Big("500"),
+      }),
     ]);
   });
 
   it("returns critical severity finding when utilizationRate is above crit threshold", async () => {
     const contractGetter = () => ({
-      totalSupply: totalSupply.mockImplementation(() =>
-        ethers.BigNumber.from("1000").mul(USDC_UNIT)
-      ),
-      scr: scr.mockImplementation(() =>
-        ethers.BigNumber.from("480").mul(USDC_UNIT)
-      ),
-      maxUtilizationRate: maxUtilizationRate.mockImplementation(() =>
-        ethers.utils.parseEther("0.5")
-      ),
+      totalSupply: totalSupply.mockImplementation(() => ethers.BigNumber.from("1000").mul(USDC_UNIT)),
+      scr: scr.mockImplementation(() => ethers.BigNumber.from("480").mul(USDC_UNIT)),
+      maxUtilizationRate: maxUtilizationRate.mockImplementation(() => ethers.utils.parseEther("0.5")),
     });
 
     const handleBlock = createHandleBlock(() => {}, etks, contractGetter);
@@ -120,8 +97,7 @@ describe("ETK Utilization rate monitoring", () => {
         FindingSeverity.Critical,
         etks[0],
         "critThresh",
-        Big("0.48"),
-        Big("0.5")
+        { utilizationRate: Big("0.48"), maxUtilizationRate: Big("0.5"), scr: Big("480"), maxScr: Big("500") }
       ),
     ]);
   });
