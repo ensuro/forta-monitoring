@@ -118,8 +118,8 @@
         {
           "name": "Bliss",
           "address": "0x11b490292799a0edFE37797592F77151C4483442",
-          "warnThresh": "1.97",
-          "critThresh": "1.99"
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
         },
         {
           "name": "DLT Alert",
@@ -198,6 +198,12 @@
           "critThresh": "0.9"
         },
         {
+          "name": "Koala Bma",
+          "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
           "name": "Otonomi",
           "address": "0x2E25a28EcBd7E8e70DABB1Ca79Bf6B4Ea5aaDa26",
           "warnThresh": "0.5",
@@ -218,8 +224,8 @@
         {
           "name": "Spot",
           "address": "0xe64b6B463c3B3Cb3475fb940B64Ef6f946D6F460",
-          "warnThresh": "0.9",
-          "critThresh": "0.98"
+          "warnThresh": "0.7",
+          "critThresh": "0.8"
         },
         {
           "name": "StormStrong",
@@ -252,20 +258,20 @@
         {
           "name": "Innov Zone Junior Pool",
           "address": "0x1C48Accaf6f8106883AA1973A45F02525652DEfC",
-          "warnThresh": "0.9",
+          "warnThresh": "0.8",
           "critThresh": "0.95"
         },
         {
           "name": "Koala Jr (BMA reg.)",
           "address": "0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6",
-          "warnThresh": "0.9",
-          "critThresh": "0.95"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         },
         {
           "name": "Koala Junior Tranche",
           "address": "0x8d2Ee82c4172B2138B06b8037d769cBfAf9C0274",
-          "warnThresh": "0.9",
-          "critThresh": "0.95"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         },
         {
           "name": "Otonomi Junior Tranche",
@@ -276,20 +282,20 @@
         {
           "name": "Senior Tranche",
           "address": "0x55bAe6690d46EA94D7F05DF7c80A85E322421fB6",
-          "warnThresh": "0.9",
-          "critThresh": "0.95"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         },
         {
           "name": "Senior Tranche (BMA reg.)",
           "address": "0xF383eF2D31E1d4a19B3e04ca2937DB6A8DA9f229",
-          "warnThresh": "0.9",
-          "critThresh": "0.95"
+          "warnThresh": "0.85",
+          "critThresh": "0.9"
         },
         {
           "name": "Spot Junior Tranche",
           "address": "0x6229D78658305a301E177f9dAEa3a0799fd1528C",
-          "warnThresh": "0.98",
-          "critThresh": "0.99"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         }
       ]
     },
