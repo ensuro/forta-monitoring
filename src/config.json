@@ -118,8 +118,8 @@
         {
           "name": "Bliss",
           "address": "0x11b490292799a0edFE37797592F77151C4483442",
-          "warnThresh": "0.95",
-          "critThresh": "0.99"
+          "warnThresh": "1.95",
+          "critThresh": "1.99"
         },
         {
           "name": "DLT Alert",
