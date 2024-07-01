@@ -122,6 +122,12 @@
           "critThresh": "1.99"
         },
         {
+          "name": "Clerity",
+          "address": "0xD26d5015C57C197AE5e7BC866B49837d22364eAB",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
           "name": "DLT Alert",
           "address": "0x8908d99a4E2fF6b7Bf4563593B02AcBc7bBfaBC1",
           "warnThresh": "0.3",
@@ -130,6 +136,12 @@
         {
           "name": "Innov Zone",
           "address": "0x4f43B8F252887F814ED689346fdb5Bd266394520",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
+          "name": "InsureHero",
+          "address": "0x41B5a105C850014eC594879E8511994F25092460",
           "warnThresh": "0.3",
           "critThresh": "0.5"
         },
@@ -180,6 +192,12 @@
           "critThresh": "0.7"
         },
         {
+          "name": "Clerity",
+          "address": "0x0b99888fF4e26A6fdB89C39E9944A0b0f7194e58",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
+        },
+        {
           "name": "DLT Alert",
           "address": "0x34C560b19DFD490E0d4b8054df35669092A94b78",
           "warnThresh": "0.5",
@@ -192,13 +210,13 @@
           "critThresh": "0.7"
         },
         {
-          "name": "Koala Legacy",
-          "address": "0xa65c9dE776d1f30c095EFF9C775E001a1d366df8",
-          "warnThresh": "0.8",
-          "critThresh": "0.9"
+          "name": "Insure Hero",
+          "address": "0xa1edAf03813e7F68D7E980f47A284B869581910d",
+          "warnThresh": "0.5",
+          "critThresh": "0.7"
         },
         {
-          "name": "Koala Bma",
+          "name": "Koala BizAway BMA",
           "address": "0x3eaB5b880b83607288744F35E778D60d0cd6539f",
           "warnThresh": "0.5",
           "critThresh": "0.7"
@@ -256,6 +274,18 @@
           "critThresh": "0.9"
         },
         {
+          "name": "eToken Jr Clerity",
+          "address": "0x1c7F0c8ba10Db7f2e1c7B5B0A024b66b6baceb45",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "eToken Jr InsureHero",
+          "address": "0x15F76F59A29C7c12b4a67751CA525bf9167C1AaB",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
+        {
           "name": "Innov Zone Junior Pool",
           "address": "0x1C48Accaf6f8106883AA1973A45F02525652DEfC",
           "warnThresh": "0.8",
@@ -276,6 +306,12 @@
         {
           "name": "Otonomi Junior Tranche",
           "address": "0x32a9CBeb2cA148E55F327c6B4673351dD03eD858",
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Revo Junior Tranche",
+          "address": "0x6A0e61C757e384eB1E4A2b94F7E02E68e4b4515e",
           "warnThresh": "0.8",
           "critThresh": "0.9"
         },
@@ -314,6 +350,12 @@
           "critThresh": "0.9"
         },
         {
+          "name": "Clerity",
+          "address": "0xD26d5015C57C197AE5e7BC866B49837d22364eAB",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
           "name": "DLT Alert",
           "address": "0x8908d99a4E2fF6b7Bf4563593B02AcBc7bBfaBC1",
           "warnThresh": "0.7",
@@ -326,8 +368,20 @@
           "critThresh": "0.9"
         },
         {
+          "name": "InsureHero",
+          "address": "0x41B5a105C850014eC594879E8511994F25092460",
+          "warnThresh": "0.3",
+          "critThresh": "0.5"
+        },
+        {
           "name": "Koala",
           "address": "0xCCf5C404d32eB6E777088AB13837a1b8dCBA9328",
+          "warnThresh": "0.7",
+          "critThresh": "0.9"
+        },
+        {
+          "name": "Koala BMA",
+          "address": "0xc1A74eaC52a195E54E0cd672A9dAB023292C6100",
           "warnThresh": "0.7",
           "critThresh": "0.9"
         },
@@ -352,12 +406,6 @@
         {
           "name": "Spot",
           "address": "0x42118Df6EBb18346ca425f1c67AC739E95aD9358",
-          "warnThresh": "0.7",
-          "critThresh": "0.9"
-        },
-        {
-          "name": "Koala BMA",
-          "address": "0xc1A74eaC52a195E54E0cd672A9dAB023292C6100",
           "warnThresh": "0.7",
           "critThresh": "0.9"
         }
