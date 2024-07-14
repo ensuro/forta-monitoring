@@ -176,8 +176,8 @@
         {
           "name": "Bliss",
           "address": "0x43882aDe3Df425D7097f0ca62E8cf08E6bef8777",
-          "warnThresh": "0.5",
-          "critThresh": "0.7"
+          "warnThresh": "0.85",
+          "critThresh": "0.95"
         },
         {
           "name": "DLT Alert",
