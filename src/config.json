@@ -264,8 +264,8 @@
         {
           "name": "Bliss Junior Tranche",
           "address": "0x71d390C243706b713B5D2b077E942223f7A55d00",
-          "warnThresh": "0.8",
-          "critThresh": "0.9"
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
         },
         {
           "name": "DLT Junior Tranche",
