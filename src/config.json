@@ -142,8 +142,8 @@
         {
           "name": "InsureHero",
           "address": "0x41B5a105C850014eC594879E8511994F25092460",
-          "warnThresh": "0.3",
-          "critThresh": "0.5"
+          "warnThresh": "0.9",
+          "critThresh": "0.95"
         },
         {
           "name": "Koala",
