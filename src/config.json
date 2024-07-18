@@ -276,8 +276,8 @@
         {
           "name": "eToken Jr InsureHero",
           "address": "0x15F76F59A29C7c12b4a67751CA525bf9167C1AaB",
-          "warnThresh": "0.8",
-          "critThresh": "0.9"
+          "warnThresh": "0.99",
+          "critThresh": "0.99"
         },
         {
           "name": "Innov Zone Junior Pool",
