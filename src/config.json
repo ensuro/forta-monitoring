@@ -338,12 +338,6 @@
           "critThresh": "0.9"
         },
         {
-          "name": "Bliss",
-          "address": "0x11b490292799a0edFE37797592F77151C4483442",
-          "warnThresh": "0.97",
-          "critThresh": "0.99"
-        },
-        {
           "name": "Clerity",
           "address": "0xD26d5015C57C197AE5e7BC866B49837d22364eAB",
           "warnThresh": "0.3",
