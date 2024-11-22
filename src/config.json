@@ -87,8 +87,8 @@
         {
           "name": "DLT CFL",
           "address": "0xFEdDF0af6Aa75dfC175Bdab964D5a8F6683E1AAf",
-          "warnThresh": "500",
-          "critThresh": "200",
+          "warnThresh": "50",
+          "critThresh": "20",
           "token": "USDC"
         },
         {
