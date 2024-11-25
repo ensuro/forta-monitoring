@@ -64,20 +64,6 @@
           "token": "USDC"
         },
         {
-          "name": "Revo CFL Low",
-          "address": "0x2bB7644221CfcC35A1C99ed7167391Ff82Fe4C08",
-          "warnThresh": "500",
-          "critThresh": "100",
-          "token": "USDC"
-        },
-        {
-          "name": "Revo CFL High",
-          "address": "0xe7DC8CDb94f0A44a930294AcC8F2f28DFD3cdEaE",
-          "warnThresh": "500",
-          "critThresh": "100",
-          "token": "USDC"
-        },
-        {
           "name": "Spot CFL",
           "address": "0x48Ff8B1493c6A3545Aea3F0812f1303E2f958bF4",
           "warnThresh": "4000",
