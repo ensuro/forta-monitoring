@@ -64,20 +64,6 @@
           "token": "USDC"
         },
         {
-          "name": "Revo CFL Low",
-          "address": "0x2bB7644221CfcC35A1C99ed7167391Ff82Fe4C08",
-          "warnThresh": "500",
-          "critThresh": "100",
-          "token": "USDC"
-        },
-        {
-          "name": "Revo CFL High",
-          "address": "0xe7DC8CDb94f0A44a930294AcC8F2f28DFD3cdEaE",
-          "warnThresh": "500",
-          "critThresh": "100",
-          "token": "USDC"
-        },
-        {
           "name": "Spot CFL",
           "address": "0x48Ff8B1493c6A3545Aea3F0812f1303E2f958bF4",
           "warnThresh": "4000",
@@ -87,8 +73,8 @@
         {
           "name": "DLT CFL",
           "address": "0xFEdDF0af6Aa75dfC175Bdab964D5a8F6683E1AAf",
-          "warnThresh": "500",
-          "critThresh": "200",
+          "warnThresh": "50",
+          "critThresh": "20",
           "token": "USDC"
         },
         {
@@ -258,7 +244,7 @@
         {
           "name": "Bliss Junior Tranche",
           "address": "0x71d390C243706b713B5D2b077E942223f7A55d00",
-          "warnThresh": "0.9",
+          "warnThresh": "0.94",
           "critThresh": "0.95"
         },
         {
@@ -334,12 +320,6 @@
         {
           "name": "Barker",
           "address": "0xa5A8c6b6cb08dB75F5d487F0838D0743871d80a7",
-          "warnThresh": "0.7",
-          "critThresh": "0.9"
-        },
-        {
-          "name": "Bliss",
-          "address": "0x11b490292799a0edFE37797592F77151C4483442",
           "warnThresh": "0.7",
           "critThresh": "0.9"
         },
