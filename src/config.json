@@ -288,7 +288,7 @@
         {
           "name": "Koala Jr (BMA reg.)",
           "address": "0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6",
-          "warnThresh": "0.8",
+          "warnThresh": "0.85",
           "critThresh": "0.9"
         },
         {
@@ -318,7 +318,7 @@
         {
           "name": "Senior Tranche (BMA reg.)",
           "address": "0xF383eF2D31E1d4a19B3e04ca2937DB6A8DA9f229",
-          "warnThresh": "0.87",
+          "warnThresh": "0.9",
           "critThresh": "0.93"
         },
         {
