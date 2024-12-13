@@ -222,8 +222,8 @@
         {
           "name": "Spot",
           "address": "0xe64b6B463c3B3Cb3475fb940B64Ef6f946D6F460",
-          "warnThresh": "0.7",
-          "critThresh": "0.8"
+          "warnThresh": "0.8",
+          "critThresh": "0.9"
         },
         {
           "name": "StormStrong",
@@ -274,8 +274,8 @@
         {
           "name": "Koala Jr (BMA reg.)",
           "address": "0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6",
-          "warnThresh": "0.85",
-          "critThresh": "0.9"
+          "warnThresh": "0.89",
+          "critThresh": "0.91"
         },
         {
           "name": "Koala Junior Tranche",
