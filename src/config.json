@@ -274,8 +274,8 @@
         {
           "name": "Koala Jr (BMA reg.)",
           "address": "0xBC33c283A37d46ABA17BC5F8C27b27242688DeC6",
-          "warnThresh": "0.89",
-          "critThresh": "0.91"
+          "warnThresh": "0.93",
+          "critThresh": "0.96"
         },
         {
           "name": "Koala Junior Tranche",
